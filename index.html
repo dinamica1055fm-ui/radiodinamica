@@ -1,0 +1,990 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Radio Dinámica FM - La Nueva Radio!</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #0a0a1a;
+            --secondary-color: #1a1a2e;
+            --accent-color: #e94560;
+            --accent-glow: #ff2e63;
+            --text-color: #ffffff;
+            --neon-blue: #00f3ff;
+            --neon-purple: #b967ff;
+            --neon-pink: #ff2e93;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: var(--text-color);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Pantalla de carga */
+        #loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--primary-color);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.8s ease-out;
+        }
+
+        .logo-container {
+            text-align: center;
+            margin-bottom: 2rem;
+            animation: pulse 2s infinite;
+        }
+
+        .radio-logo {
+            max-width: 350px;
+            max-height: 250px;
+            margin-bottom: 1rem;
+            filter: drop-shadow(0 0 15px var(--accent-glow));
+        }
+
+        .logo-subtitle {
+            font-size: 1.8rem;
+            color: var(--neon-blue);
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px var(--neon-blue);
+            margin-top: 0.5rem;
+        }
+
+        .loading-bar {
+            width: 400px;
+            height: 6px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 2rem;
+            box-shadow: 0 0 10px rgba(0, 243, 255, 0.3);
+        }
+
+        .loading-progress {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--neon-blue), var(--neon-purple));
+            border-radius: 4px;
+            transition: width 0.3s ease;
+            box-shadow: 0 0 10px var(--neon-blue);
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        /* Contenido principal */
+        #main-content {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.8s ease-in;
+        }
+
+        .header {
+            text-align: center;
+            padding: 2rem 1rem;
+            background: rgba(10, 10, 26, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--neon-blue), var(--neon-purple), var(--accent-color));
+            animation: headerGlow 3s infinite;
+        }
+
+        @keyframes headerGlow {
+            0% {
+                opacity: 0.7;
+            }
+
+            50% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0.7;
+            }
+        }
+
+        .header-logo {
+            max-width: 250px;
+            margin-bottom: 1rem;
+            filter: drop-shadow(0 0 10px var(--accent-glow));
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(45deg, var(--accent-color), var(--neon-purple), var(--neon-blue));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 15px rgba(233, 69, 96, 0.5);
+            letter-spacing: 2px;
+        }
+
+        .header p {
+            color: #aaa;
+            font-size: 1.3rem;
+            letter-spacing: 1px;
+        }
+
+        .content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 3rem;
+            padding: 3rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .player-section {
+            flex: 1;
+            min-width: 350px;
+            max-width: 600px;
+            background: rgba(22, 22, 40, 0.7);
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(233, 69, 96, 0.3);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .player-section::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            background: linear-gradient(45deg, var(--neon-blue), transparent, var(--accent-color));
+            z-index: -1;
+            border-radius: 25px;
+            opacity: 0.1;
+        }
+
+        .player-title {
+            display: flex;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .player-title i {
+            font-size: 2rem;
+            color: var(--accent-color);
+            margin-right: 15px;
+            text-shadow: 0 0 10px var(--accent-glow);
+        }
+
+        .player-title h2 {
+            font-size: 1.8rem;
+            background: linear-gradient(45deg, var(--neon-blue), var(--neon-purple));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .player-container {
+            position: relative;
+            margin-bottom: 2rem;
+        }
+
+        /* Contenedor del iframe con overlay para ocultar el verde */
+        .iframe-container {
+            position: relative;
+            width: 100%;
+            height: 150px;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            background: rgba(10, 10, 26, 0.8);
+        }
+
+        .iframe-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(10, 10, 26, 0.9), rgba(22, 22, 40, 0.8));
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .player-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            position: relative;
+            z-index: 1;
+        }
+
+        .status-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--accent-color);
+            margin-right: 10px;
+            box-shadow: 0 0 10px var(--accent-color);
+            animation: pulse 2s infinite;
+        }
+
+        .status-text {
+            font-size: 1.3rem;
+            color: var(--neon-blue);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .loading-text {
+            color: #aaa;
+            font-size: 1rem;
+        }
+
+        .visualizer {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            height: 120px;
+            margin-top: 2rem;
+            padding: 0 15px;
+            border-radius: 10px;
+            background: rgba(0, 0, 0, 0.3);
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+        }
+
+        .bar {
+            width: 10px;
+            background: linear-gradient(to top, var(--neon-blue), var(--neon-purple));
+            border-radius: 5px 5px 0 0;
+            transition: height 0.15s ease;
+            box-shadow: 0 0 8px var(--neon-blue);
+        }
+
+        .mixer-section {
+            flex: 1;
+            min-width: 350px;
+            max-width: 600px;
+            background: rgba(22, 22, 40, 0.7);
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(0, 243, 255, 0.3);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .mixer-section::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            background: linear-gradient(45deg, var(--accent-color), transparent, var(--neon-blue));
+            z-index: -1;
+            border-radius: 25px;
+            opacity: 0.1;
+        }
+
+        .mixer-title {
+            display: flex;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .mixer-title i {
+            font-size: 2rem;
+            color: var(--neon-blue);
+            margin-right: 15px;
+            text-shadow: 0 0 10px var(--neon-blue);
+        }
+
+        .mixer-title h2 {
+            font-size: 1.8rem;
+            background: linear-gradient(45deg, var(--neon-blue), var(--accent-color));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .mixer-controls {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+        }
+
+        .mixer-control {
+            text-align: center;
+            position: relative;
+        }
+
+        .mixer-control label {
+            display: block;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+            color: #ddd;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .knob {
+            width: 90px;
+            height: 90px;
+            margin: 0 auto;
+            position: relative;
+            transition: transform 0.3s ease;
+        }
+
+        .knob-inner {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, #2a2a4a, #0a0a1a);
+            border: 3px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.7), inset 0 0 15px rgba(0, 0, 0, 0.5);
+        }
+
+        .knob-glow {
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            right: 5px;
+            bottom: 5px;
+            border-radius: 50%;
+            background: conic-gradient(from 0deg, var(--neon-blue), var(--neon-purple), var(--accent-color), var(--neon-blue));
+            opacity: 0.7;
+            z-index: -1;
+            animation: rotate 10s linear infinite;
+        }
+
+        .knob-indicator {
+            position: absolute;
+            top: 10%;
+            left: 50%;
+            width: 3px;
+            height: 35%;
+            background: var(--text-color);
+            transform-origin: bottom center;
+            transform: translateX(-50%) rotate(0deg);
+            transition: transform 0.5s ease;
+            box-shadow: 0 0 8px var(--neon-blue);
+            z-index: 2;
+        }
+
+        .knob-value {
+            margin-top: 1rem;
+            font-size: 1.1rem;
+            color: var(--neon-blue);
+            font-weight: bold;
+            text-shadow: 0 0 5px var(--neon-blue);
+            transition: all 0.5s ease;
+        }
+
+        .equalizer {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 3rem;
+            padding: 1.5rem;
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 15px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+        }
+
+        .eq-band {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .eq-slider {
+            width: 15px;
+            height: 120px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            position: relative;
+            margin-bottom: 0.8rem;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+        }
+
+        .eq-slider-fill {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 50%;
+            background: linear-gradient(to top, var(--neon-blue), var(--neon-purple));
+            border-radius: 8px;
+            transition: height 0.3s ease;
+            box-shadow: 0 0 10px var(--neon-blue);
+        }
+
+        .eq-label {
+            font-size: 0.9rem;
+            color: #ddd;
+            font-weight: bold;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 2.5rem;
+            margin-top: 3rem;
+            background: rgba(10, 10, 26, 0.8);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .footer p {
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            color: #aaa;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 1rem;
+        }
+
+        .social-link {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 1.3rem;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .social-link:hover {
+            background: var(--accent-color);
+            transform: translateY(-5px) scale(1.1);
+            box-shadow: 0 5px 15px var(--accent-glow);
+        }
+
+        /* Efectos de partículas */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: float 15s infinite linear;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+            }
+
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+            }
+        }
+
+        @keyframes rotate {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Efectos de luz */
+        .light-beam {
+            position: absolute;
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--neon-blue), transparent);
+            box-shadow: 0 0 10px var(--neon-blue);
+            opacity: 0.5;
+            animation: sweep 8s infinite linear;
+        }
+
+        @keyframes sweep {
+            0% {
+                top: 0%;
+                transform: rotate(0deg);
+            }
+
+            100% {
+                top: 100%;
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Efectos de brillo neón */
+        .neon-glow {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            background: radial-gradient(circle at center, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+            opacity: 0;
+            animation: neonPulse 4s infinite alternate;
+            pointer-events: none;
+        }
+
+        @keyframes neonPulse {
+            0% {
+                opacity: 0.1;
+            }
+
+            100% {
+                opacity: 0.3;
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .content {
+                flex-direction: column;
+                align-items: center;
+                padding: 1.5rem;
+            }
+
+            .player-section,
+            .mixer-section {
+                width: 100%;
+            }
+
+            .mixer-controls {
+                grid-template-columns: 1fr;
+            }
+
+            .radio-logo {
+                max-width: 280px;
+            }
+
+            .header h1 {
+                font-size: 2.2rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Pantalla de carga -->
+    <div id="loading-screen">
+        <div class="logo-container">
+            <img src="./logo radio.jpeg" alt="Radio Dinámica FM" class="radio-logo">
+            <div class="logo-subtitle">La Nueva Radio!</div>
+        </div>
+        <div class="loading-bar">
+            <div class="loading-progress" id="loading-progress"></div>
+        </div>
+    </div>
+
+    <!-- Contenido principal -->
+    <div id="main-content">
+        <div class="header">
+            <div class="neon-glow"></div>
+            <img src="./logo radio.jpeg" alt="Radio Dinámica FM" class="header-logo">
+            <h1>Radio Dinámica FM</h1>
+            <p>La Nueva Radio! - 10.5.5 FM</p>
+        </div>
+
+        <div class="content">
+            <div class="player-section">
+                <div class="light-beam"></div>
+                <div class="neon-glow"></div>
+                <div class="player-title">
+                    <i class="fas fa-broadcast-tower"></i>
+                    <h2>TRANSMISIÓN EN VIVO</h2>
+                </div>
+
+                <div class="player-container">
+                    <!-- Contenedor del iframe con overlay -->
+                    <div class="iframe-container">
+                        <iframe src="http://dinamicafm.on-air.fm/free/" class="player-frame" frameborder="0"
+                            scrolling="no" allow="autoplay; encrypted-media" id="radio-iframe">
+                        </iframe>
+                        <div class="iframe-overlay">
+                            <div class="status-text">
+                                <div class="status-indicator"></div>
+                                TRANSMITIENDO EN VIVO
+                            </div>
+                            <div class="loading-text">Cargando reproductor...</div>
+                        </div>
+                    </div>
+
+                    <div class="visualizer" id="visualizer">
+                        <!-- Las barras del visualizador se generan con JavaScript -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="mixer-section">
+                <div class="light-beam"></div>
+                <div class="neon-glow"></div>
+                <div class="mixer-title">
+                    <i class="fas fa-sliders-h"></i>
+                    <h2>MEZCLADORA DJ</h2>
+                </div>
+
+                <div class="mixer-controls">
+                    <div class="mixer-control">
+                        <label>Volumen</label>
+                        <div class="knob" id="volume-knob">
+                            <div class="knob-glow"></div>
+                            <div class="knob-inner">
+                                <div class="knob-indicator"></div>
+                            </div>
+                        </div>
+                        <div class="knob-value">75%</div>
+                    </div>
+
+                    <div class="mixer-control">
+                        <label>Bajos</label>
+                        <div class="knob" id="bass-knob">
+                            <div class="knob-glow"></div>
+                            <div class="knob-inner">
+                                <div class="knob-indicator"></div>
+                            </div>
+                        </div>
+                        <div class="knob-value">60%</div>
+                    </div>
+
+                    <div class="mixer-control">
+                        <label>Medios</label>
+                        <div class="knob" id="mid-knob">
+                            <div class="knob-glow"></div>
+                            <div class="knob-inner">
+                                <div class="knob-indicator"></div>
+                            </div>
+                        </div>
+                        <div class="knob-value">50%</div>
+                    </div>
+
+                    <div class="mixer-control">
+                        <label>Agudos</label>
+                        <div class="knob" id="treble-knob">
+                            <div class="knob-glow"></div>
+                            <div class="knob-inner">
+                                <div class="knob-indicator"></div>
+                            </div>
+                        </div>
+                        <div class="knob-value">70%</div>
+                    </div>
+                </div>
+
+                <div class="equalizer">
+                    <div class="eq-band">
+                        <div class="eq-slider">
+                            <div class="eq-slider-fill" style="height: 60%"></div>
+                        </div>
+                        <div class="eq-label">60Hz</div>
+                    </div>
+                    <div class="eq-band">
+                        <div class="eq-slider">
+                            <div class="eq-slider-fill" style="height: 45%"></div>
+                        </div>
+                        <div class="eq-label">230Hz</div>
+                    </div>
+                    <div class="eq-band">
+                        <div class="eq-slider">
+                            <div class="eq-slider-fill" style="height: 70%"></div>
+                        </div>
+                        <div class="eq-label">910Hz</div>
+                    </div>
+                    <div class="eq-band">
+                        <div class="eq-slider">
+                            <div class="eq-slider-fill" style="height: 55%"></div>
+                        </div>
+                        <div class="eq-label">3.6kHz</div>
+                    </div>
+                    <div class="eq-band">
+                        <div class="eq-slider">
+                            <div class="eq-slider-fill" style="height: 80%"></div>
+                        </div>
+                        <div class="eq-label">14kHz</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>© 2023 Radio Dinámica FM - Todos los derechos reservados</p>
+            <div class="social-links">
+                <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Efectos de partículas -->
+    <div class="particles" id="particles"></div>
+
+    <script>
+        // Simulación de pantalla de carga
+        document.addEventListener('DOMContentLoaded', function () {
+            const loadingScreen = document.getElementById('loading-screen');
+            const mainContent = document.getElementById('main-content');
+            const loadingProgress = document.getElementById('loading-progress');
+            const iframeOverlay = document.querySelector('.iframe-overlay');
+
+            let progress = 0;
+            const interval = setInterval(() => {
+                progress += Math.random() * 10;
+                if (progress >= 100) {
+                    progress = 100;
+                    clearInterval(interval);
+
+                    // Ocultar pantalla de carga y mostrar contenido principal
+                    setTimeout(() => {
+                        loadingScreen.style.opacity = '0';
+                        setTimeout(() => {
+                            loadingScreen.style.display = 'none';
+                            mainContent.style.display = 'block';
+                            setTimeout(() => {
+                                mainContent.style.opacity = '1';
+
+                                // Ocultar el overlay después de que el iframe cargue
+                                setTimeout(() => {
+                                    iframeOverlay.style.opacity = '0';
+                                    setTimeout(() => {
+                                        iframeOverlay.style.display = 'none';
+                                    }, 1000);
+                                }, 3000);
+                            }, 50);
+                        }, 800);
+                    }, 500);
+                }
+                loadingProgress.style.width = `${progress}%`;
+            }, 300);
+
+            // Crear partículas de fondo
+            createParticles();
+
+            // Inicializar visualizador
+            initVisualizer();
+
+            // Inicializar controles de mezcladora con movimiento automático
+            initDynamicMixer();
+
+            // Animar mezcladora automáticamente
+            animateMixer();
+        });
+
+        // Crear partículas flotantes
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 60;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+
+                // Tamaño aleatorio
+                const size = Math.random() * 15 + 5;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+
+                // Posición inicial aleatoria
+                particle.style.left = `${Math.random() * 100}%`;
+
+                // Retraso de animación aleatorio
+                particle.style.animationDelay = `${Math.random() * 15}s`;
+
+                // Color aleatorio (azul, rosa o púrpura)
+                const colors = [
+                    'rgba(0, 243, 255, 0.3)',
+                    'rgba(233, 69, 96, 0.3)',
+                    'rgba(185, 103, 255, 0.3)',
+                    'rgba(255, 46, 147, 0.3)'
+                ];
+                particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // Inicializar visualizador de audio
+        function initVisualizer() {
+            const visualizer = document.getElementById('visualizer');
+            const barCount = 50;
+
+            // Crear barras del visualizador
+            for (let i = 0; i < barCount; i++) {
+                const bar = document.createElement('div');
+                bar.classList.add('bar');
+
+                // Altura inicial aleatoria
+                const height = Math.random() * 60 + 20;
+                bar.style.height = `${height}%`;
+
+                // Retraso de animación para crear efecto de onda
+                bar.style.animationDelay = `${i * 0.03}s`;
+
+                visualizer.appendChild(bar);
+            }
+
+            // Animar las barras
+            animateVisualizer();
+        }
+
+        // Animar el visualizador
+        function animateVisualizer() {
+            const bars = document.querySelectorAll('.bar');
+
+            setInterval(() => {
+                bars.forEach(bar => {
+                    // Cambiar altura aleatoriamente para simular audio
+                    const newHeight = Math.random() * 80 + 10;
+                    bar.style.height = `${newHeight}%`;
+
+                    // Cambiar color gradualmente
+                    const hue = Math.random() * 60 + 180; // Entre 180 y 240 (azules)
+                    bar.style.background = `linear-gradient(to top, hsl(${hue}, 100%, 60%), hsl(${hue + 40}, 100%, 60%))`;
+                });
+            }, 100);
+        }
+
+        // Inicializar mezcladora con movimiento automático
+        function initDynamicMixer() {
+            const knobs = document.querySelectorAll('.knob');
+            const values = document.querySelectorAll('.knob-value');
+
+            // Valores iniciales para cada knob
+            const initialValues = [75, 60, 50, 70]; // Volumen, Bajos, Medios, Agudos
+            const directions = [1, -1, 1, -1]; // Dirección de movimiento
+
+            // Aplicar valores iniciales
+            knobs.forEach((knob, index) => {
+                const indicator = knob.querySelector('.knob-indicator');
+                const rotation = (initialValues[index] / 100) * 270 - 135;
+                indicator.style.transform = `translateX(-50%) rotate(${rotation}deg)`;
+            });
+
+            // Animar los knobs automáticamente
+            setInterval(() => {
+                knobs.forEach((knob, index) => {
+                    const indicator = knob.querySelector('.knob-indicator');
+                    const valueElement = values[index];
+
+                    // Obtener valor actual
+                    let currentValue = parseInt(valueElement.textContent);
+
+                    // Cambiar dirección si llega a los límites
+                    if (currentValue >= 95) directions[index] = -1;
+                    if (currentValue <= 5) directions[index] = 1;
+
+                    // Calcular nuevo valor
+                    const change = Math.random() * 3 + 1; // Cambio entre 1 y 4
+                    const newValue = Math.max(0, Math.min(100, currentValue + (change * directions[index])));
+
+                    // Aplicar nuevo valor
+                    const rotation = (newValue / 100) * 270 - 135;
+                    indicator.style.transform = `translateX(-50%) rotate(${rotation}deg)`;
+                    valueElement.textContent = `${Math.round(newValue)}%`;
+
+                    // Cambiar color del texto basado en el valor
+                    if (newValue > 80) {
+                        valueElement.style.color = 'var(--accent-color)';
+                        valueElement.style.textShadow = '0 0 10px var(--accent-glow)';
+                    } else if (newValue > 60) {
+                        valueElement.style.color = 'var(--neon-purple)';
+                        valueElement.style.textShadow = '0 0 8px var(--neon-purple)';
+                    } else {
+                        valueElement.style.color = 'var(--neon-blue)';
+                        valueElement.style.textShadow = '0 0 5px var(--neon-blue)';
+                    }
+                });
+            }, 800); // Actualizar cada 800ms
+        }
+
+        // Animar automáticamente la mezcladora
+        function animateMixer() {
+            const eqSliders = document.querySelectorAll('.eq-slider-fill');
+
+            setInterval(() => {
+                eqSliders.forEach(slider => {
+                    // Cambiar altura aleatoriamente para simular ajustes en tiempo real
+                    const newHeight = Math.random() * 70 + 20;
+                    slider.style.height = `${newHeight}%`;
+
+                    // Cambiar color basado en la altura
+                    if (newHeight > 70) {
+                        slider.style.background = 'linear-gradient(to top, var(--accent-color), var(--neon-pink))';
+                    } else if (newHeight > 50) {
+                        slider.style.background = 'linear-gradient(to top, var(--neon-purple), var(--accent-color))';
+                    } else {
+                        slider.style.background = 'linear-gradient(to top, var(--neon-blue), var(--neon-purple))';
+                    }
+                });
+            }, 600);
+        }
+    </script>
+</body>
+
+</html>
