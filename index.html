@@ -16,6 +16,13 @@
             --neon-blue: #00f3ff;
             --neon-purple: #b967ff;
             --neon-pink: #ff2e93;
+            --on-air-green: #00ff88;
+            --on-air-red: #ff2e2e;
+            --vu-black: #000000;
+            --vu-chrome: #c0c0c0;
+            --vu-white: #ffffff;
+            --vu-red: #ff0000;
+            --vu-glow: #ff3333;
         }
 
         * {
@@ -168,6 +175,209 @@
             letter-spacing: 1px;
         }
 
+        /* NUEVO CARRUSEL DE IMÁGENES MEJORADO */
+        .carousel-section {
+            width: 100%;
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .carousel-title {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .carousel-title i {
+            font-size: 2rem;
+            color: var(--accent-color);
+            margin-right: 15px;
+            text-shadow: 0 0 10px var(--accent-glow);
+        }
+
+        .carousel-title h2 {
+            font-size: 1.8rem;
+            background: linear-gradient(45deg, var(--neon-blue), var(--neon-purple));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .carousel-container {
+            position: relative;
+            width: 100%;
+            height: 500px;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(233, 69, 96, 0.3);
+            background: rgba(22, 22, 40, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .carousel-slides {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        .carousel-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 1.2s ease-in-out, transform 1.2s ease-in-out;
+            transform: scale(1.05);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+        }
+
+        .carousel-slide.active {
+            opacity: 1;
+            transform: scale(1);
+            z-index: 2;
+        }
+
+        .carousel-slide.next {
+            opacity: 0;
+            transform: translateX(20px);
+            z-index: 1;
+        }
+
+        .carousel-slide.prev {
+            opacity: 0;
+            transform: translateX(-20px);
+            z-index: 1;
+        }
+
+        .carousel-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: brightness(0.8);
+            transition: filter 0.5s ease;
+        }
+
+        .carousel-slide.active .carousel-image {
+            filter: brightness(1);
+        }
+
+        .carousel-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 2rem;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+            color: white;
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.7);
+            z-index: 3;
+            transform: translateY(100%);
+            transition: transform 0.8s ease;
+        }
+
+        .carousel-slide.active .carousel-caption {
+            transform: translateY(0);
+        }
+
+        .carousel-control {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.8rem;
+            transition: all 0.3s ease;
+            z-index: 10;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .carousel-control:hover {
+            background: rgba(233, 69, 96, 0.8);
+            box-shadow: 0 0 20px var(--accent-glow);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .carousel-control.prev {
+            left: 25px;
+        }
+
+        .carousel-control.next {
+            right: 25px;
+        }
+
+        .carousel-indicators {
+            position: absolute;
+            bottom: 25px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 12px;
+            z-index: 10;
+        }
+
+        .carousel-indicator {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.4);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .carousel-indicator.active {
+            background: var(--accent-color);
+            box-shadow: 0 0 15px var(--accent-glow);
+            transform: scale(1.3);
+            border-color: rgba(255, 255, 255, 0.8);
+        }
+
+        .carousel-indicator:hover {
+            background: var(--neon-blue);
+            box-shadow: 0 0 10px var(--neon-blue);
+        }
+
+        .carousel-progress {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 4px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            z-index: 10;
+        }
+
+        .carousel-progress-bar {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--neon-blue), var(--accent-color));
+            transition: width 3s linear;
+            box-shadow: 0 0 10px var(--neon-blue);
+        }
+
+        .carousel-slide.active .carousel-progress-bar {
+            width: 100%;
+        }
+
         .content {
             display: flex;
             flex-wrap: wrap;
@@ -231,6 +441,70 @@
             margin-bottom: 2rem;
         }
 
+        /* Indicador ON AIR */
+        .on-air-indicator {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .on-air-indicator:hover {
+            transform: scale(1.05);
+        }
+
+        .on-air-text {
+            font-size: 2.5rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            background: rgba(0, 0, 0, 0.3);
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.5);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.5s ease;
+        }
+
+        .on-air-text::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, var(--on-air-green), transparent, var(--on-air-green));
+            z-index: -1;
+            border-radius: 50px;
+            opacity: 0.7;
+            animation: onAirGlow 2s infinite;
+        }
+
+        .on-air-text.paused {
+            box-shadow: 0 0 20px rgba(255, 46, 46, 0.5);
+        }
+
+        .on-air-text.paused::before {
+            background: linear-gradient(45deg, var(--on-air-red), transparent, var(--on-air-red));
+        }
+
+        @keyframes onAirGlow {
+            0% {
+                opacity: 0.5;
+            }
+
+            50% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0.5;
+            }
+        }
+
         /* Contenedor del iframe con overlay para ocultar el verde */
         .iframe-container {
             position: relative;
@@ -240,6 +514,9 @@
             overflow: hidden;
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
             background: rgba(10, 10, 26, 0.8);
+            display: none;
+            /* Oculto inicialmente */
+            transition: all 0.5s ease;
         }
 
         .iframe-overlay {
@@ -308,6 +585,7 @@
             box-shadow: 0 0 8px var(--neon-blue);
         }
 
+        /* NUEVA SECCIÓN DE MEZCLADORA CON VU METERS ESTILO VELOCÍMETRO MODERNO */
         .mixer-section {
             flex: 1;
             min-width: 350px;
@@ -356,124 +634,218 @@
             color: transparent;
         }
 
-        .mixer-controls {
+        .vu-container {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 2rem;
+            margin-bottom: 2rem;
         }
 
-        .mixer-control {
-            text-align: center;
-            position: relative;
-        }
-
-        .mixer-control label {
-            display: block;
-            margin-bottom: 1rem;
-            font-size: 1.1rem;
-            color: #ddd;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .knob {
-            width: 90px;
-            height: 90px;
-            margin: 0 auto;
-            position: relative;
-            transition: transform 0.3s ease;
-        }
-
-        .knob-inner {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            background: radial-gradient(circle at 30% 30%, #2a2a4a, #0a0a1a);
-            border: 3px solid rgba(255, 255, 255, 0.1);
+        .vu-meter {
+            background: linear-gradient(145deg, #0a0a0a, #000000);
+            border-radius: 12px;
+            padding: 1.5rem 1rem;
+            box-shadow:
+                inset 0 0 15px rgba(0, 0, 0, 0.9),
+                0 5px 20px rgba(0, 0, 0, 0.7),
+                0 0 0 2px #333,
+                0 0 0 4px #111;
             position: relative;
             overflow: hidden;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.7), inset 0 0 15px rgba(0, 0, 0, 0.5);
+            border: 1px solid #444;
         }
 
-        .knob-glow {
+        .vu-label {
+            text-align: center;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--vu-white);
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
+            z-index: 2;
+            position: relative;
+        }
+
+        .vu-dial {
+            width: 170px;
+            height: 170px;
+            margin: 0 auto;
+            position: relative;
+            background:
+                radial-gradient(circle at center, #111, #000),
+                radial-gradient(circle at 30% 30%, #222, transparent 70%);
+            border-radius: 50%;
+            box-shadow:
+                inset 0 0 25px rgba(0, 0, 0, 0.95),
+                0 0 15px rgba(0, 0, 0, 0.8);
+            border: 12px solid var(--vu-chrome);
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .vu-dial::before {
+            content: '';
             position: absolute;
             top: 5px;
             left: 5px;
             right: 5px;
             bottom: 5px;
+            border: 2px solid #222;
             border-radius: 50%;
-            background: conic-gradient(from 0deg, var(--neon-blue), var(--neon-purple), var(--accent-color), var(--neon-blue));
-            opacity: 0.7;
-            z-index: -1;
-            animation: rotate 10s linear infinite;
+            z-index: 1;
         }
 
-        .knob-indicator {
+        .vu-scale {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            z-index: 2;
+        }
+
+        .vu-scale-mark {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 2px;
+            height: 12px;
+            background: var(--vu-white);
+            transform-origin: bottom center;
+            opacity: 0.7;
+        }
+
+        .vu-scale-number {
+            position: absolute;
+            font-size: 0.8rem;
+            font-weight: bold;
+            color: var(--vu-white);
+            transform: translateX(-50%) rotate(0deg);
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
+            transform-origin: center;
+        }
+
+        .vu-needle {
             position: absolute;
             top: 10%;
             left: 50%;
             width: 3px;
-            height: 35%;
-            background: var(--text-color);
+            height: 42%;
+            background: linear-gradient(to top, transparent 10%, var(--vu-red) 40%, var(--vu-red) 100%);
             transform-origin: bottom center;
-            transform: translateX(-50%) rotate(0deg);
-            transition: transform 0.5s ease;
-            box-shadow: 0 0 8px var(--neon-blue);
-            z-index: 2;
+            transform: translateX(-50%) rotate(-120deg);
+            transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.3, 1);
+            z-index: 4;
+            border-radius: 2px;
+            box-shadow: 0 0 10px var(--vu-glow);
         }
 
-        .knob-value {
-            margin-top: 1rem;
+        .vu-needle::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 18px;
+            height: 18px;
+            background: radial-gradient(circle, var(--vu-red), #800000);
+            border-radius: 50%;
+            box-shadow: 0 0 12px var(--vu-glow);
+            z-index: 5;
+        }
+
+        .vu-needle::after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 12px;
+            height: 12px;
+            background: var(--vu-chrome);
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.9);
+            z-index: 3;
+        }
+
+        .vu-value {
+            text-align: center;
+            margin-top: 0.8rem;
             font-size: 1.1rem;
-            color: var(--neon-blue);
             font-weight: bold;
-            text-shadow: 0 0 5px var(--neon-blue);
+            color: var(--vu-white);
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
             transition: all 0.5s ease;
+            z-index: 2;
+            position: relative;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 0.3rem 0.8rem;
+            border-radius: 8px;
+            display: inline-block;
+            border: 1px solid #333;
         }
 
-        .equalizer {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 3rem;
-            padding: 1.5rem;
-            background: rgba(0, 0, 0, 0.4);
-            border-radius: 15px;
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+        .vu-value.high {
+            color: #ff9900;
+            text-shadow: 0 0 6px rgba(255, 153, 0, 0.8);
         }
 
-        .eq-band {
+        .vu-value.critical {
+            color: var(--vu-red);
+            text-shadow: 0 0 10px var(--vu-glow);
+            animation: criticalPulse 0.7s infinite alternate;
+        }
+
+        @keyframes criticalPulse {
+            0% {
+                opacity: 0.7;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        .vu-meter-stereo {
+            grid-column: 1 / -1;
+            margin-top: 1rem;
+        }
+
+        .stereo-dials {
             display: flex;
-            flex-direction: column;
+            justify-content: space-around;
             align-items: center;
         }
 
-        .eq-slider {
-            width: 15px;
-            height: 120px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
-            position: relative;
-            margin-bottom: 0.8rem;
-            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
-            overflow: hidden;
+        .stereo-channel {
+            text-align: center;
         }
 
-        .eq-slider-fill {
+        .stereo-label {
+            margin-top: 0.8rem;
+            font-size: 1rem;
+            font-weight: bold;
+            color: var(--vu-white);
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+            background: rgba(0, 0, 0, 0.7);
+            padding: 0.3rem 0.8rem;
+            border-radius: 8px;
+            display: inline-block;
+            border: 1px solid #333;
+        }
+
+        .red-zone {
             position: absolute;
-            bottom: 0;
+            top: 0;
             left: 0;
             width: 100%;
-            height: 50%;
-            background: linear-gradient(to top, var(--neon-blue), var(--neon-purple));
-            border-radius: 8px;
-            transition: height 0.3s ease;
-            box-shadow: 0 0 10px var(--neon-blue);
-        }
-
-        .eq-label {
-            font-size: 0.9rem;
-            color: #ddd;
-            font-weight: bold;
+            height: 100%;
+            border-radius: 50%;
+            background: conic-gradient(from -120deg, transparent 240deg, rgba(255, 0, 0, 0.15) 240deg, rgba(255, 0, 0, 0.15) 300deg);
+            z-index: 0;
         }
 
         .footer {
@@ -547,16 +919,6 @@
             }
         }
 
-        @keyframes rotate {
-            0% {
-                transform: rotate(0deg);
-            }
-
-            100% {
-                transform: rotate(360deg);
-            }
-        }
-
         /* Efectos de luz */
         .light-beam {
             position: absolute;
@@ -616,8 +978,18 @@
                 width: 100%;
             }
 
-            .mixer-controls {
+            .vu-container {
                 grid-template-columns: 1fr;
+            }
+
+            .vu-dial {
+                width: 150px;
+                height: 150px;
+            }
+
+            .stereo-dials {
+                flex-direction: column;
+                gap: 1.5rem;
             }
 
             .radio-logo {
@@ -626,6 +998,26 @@
 
             .header h1 {
                 font-size: 2.2rem;
+            }
+
+            .on-air-text {
+                font-size: 2rem;
+                padding: 0.8rem 1.5rem;
+            }
+
+            .carousel-container {
+                height: 350px;
+            }
+
+            .carousel-caption {
+                font-size: 1.2rem;
+                padding: 1.5rem;
+            }
+
+            .carousel-control {
+                width: 50px;
+                height: 50px;
+                font-size: 1.5rem;
             }
         }
     </style>
@@ -652,6 +1044,67 @@
             <p>La Nueva Radio! - 10.5.5 FM</p>
         </div>
 
+        <!-- NUEVO CARRUSEL DE IMÁGENES MEJORADO -->
+        <div class="carousel-section">
+            <div class="carousel-title">
+                <i class="fas fa-images"></i>
+                <h2>GALERÍA DE RADIO</h2>
+            </div>
+            <div class="carousel-container">
+                <div class="carousel-slides">
+                    <div class="carousel-slide active">
+                        <img src="./IMAGEN.jpg" alt="Estudio de Radio 1" class="carousel-image">
+                        <div class="carousel-caption">Estudio de Radio Profesional</div>
+                        <div class="carousel-progress">
+                            <div class="carousel-progress-bar"></div>
+                        </div>
+                    </div>
+                    <div class="carousel-slide">
+                        <img src="./IMAGEN.jpg" alt="Equipo de Radio" class="carousel-image">
+                        <div class="carousel-caption">Equipo de Transmisión</div>
+                        <div class="carousel-progress">
+                            <div class="carousel-progress-bar"></div>
+                        </div>
+                    </div>
+                    <div class="carousel-slide">
+                        <img src="./IMAGEN.jpg" alt="DJ en Acción" class="carousel-image">
+                        <div class="carousel-caption">DJ en Acción</div>
+                        <div class="carousel-progress">
+                            <div class="carousel-progress-bar"></div>
+                        </div>
+                    </div>
+                    <div class="carousel-slide">
+                        <img src="https://images.unsplash.com/photo-1508700929628-666bc8bd84ea?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
+                            alt="Micrófono Profesional" class="carousel-image">
+                        <div class="carousel-caption">Micrófono Profesional</div>
+                        <div class="carousel-progress">
+                            <div class="carousel-progress-bar"></div>
+                        </div>
+                    </div>
+                    <div class="carousel-slide">
+                        <img src="./IMAGEN.jpg" alt="Audífonos de Estudio" class="carousel-image">
+                        <div class="carousel-caption">Audífonos de Estudio</div>
+                        <div class="carousel-progress">
+                            <div class="carousel-progress-bar"></div>
+                        </div>
+                    </div>
+                </div>
+                <button class="carousel-control prev" id="prev-btn">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <button class="carousel-control next" id="next-btn">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+                <div class="carousel-indicators" id="carousel-indicators">
+                    <div class="carousel-indicator active" data-index="0"></div>
+                    <div class="carousel-indicator" data-index="1"></div>
+                    <div class="carousel-indicator" data-index="2"></div>
+                    <div class="carousel-indicator" data-index="3"></div>
+                    <div class="carousel-indicator" data-index="4"></div>
+                </div>
+            </div>
+        </div>
+
         <div class="content">
             <div class="player-section">
                 <div class="light-beam"></div>
@@ -661,9 +1114,16 @@
                     <h2>TRANSMISIÓN EN VIVO</h2>
                 </div>
 
+                <!-- Indicador ON AIR -->
+                <div class="on-air-indicator" id="on-air-indicator">
+                    <div class="on-air-text" id="on-air-text">
+                        ON AIR
+                    </div>
+                </div>
+
                 <div class="player-container">
                     <!-- Contenedor del iframe con overlay -->
-                    <div class="iframe-container">
+                    <div class="iframe-container" id="iframe-container">
                         <iframe src="https://radios.yanapak.org/dinamica" class="player-frame" frameborder="0"
                             scrolling="no" allow="autoplay; encrypted-media" id="radio-iframe">
                         </iframe>
@@ -677,13 +1137,13 @@
                         </div>
                     </div>
 
-
                     <div class="visualizer" id="visualizer">
                         <!-- Las barras del visualizador se generan con JavaScript -->
                     </div>
                 </div>
             </div>
 
+            <!-- NUEVA SECCIÓN DE MEZCLADORA CON VU METERS ESTILO VELOCÍMETRO MODERNO -->
             <div class="mixer-section">
                 <div class="light-beam"></div>
                 <div class="neon-glow"></div>
@@ -692,82 +1152,79 @@
                     <h2>MEZCLADORA DJ</h2>
                 </div>
 
-                <div class="mixer-controls">
-                    <div class="mixer-control">
-                        <label>Volumen</label>
-                        <div class="knob" id="volume-knob">
-                            <div class="knob-glow"></div>
-                            <div class="knob-inner">
-                                <div class="knob-indicator"></div>
+                <div class="vu-container">
+                    <div class="vu-meter">
+                        <div class="vu-label">VOLUMEN</div>
+                        <div class="vu-dial">
+                            <div class="red-zone"></div>
+                            <div class="vu-scale" id="volume-scale">
+                                <!-- Marcas de escala se generan con JS -->
                             </div>
+                            <div class="vu-needle" id="volume-needle"></div>
                         </div>
-                        <div class="knob-value">75%</div>
+                        <div class="vu-value" id="volume-value">-24 dB</div>
                     </div>
 
-                    <div class="mixer-control">
-                        <label>Bajos</label>
-                        <div class="knob" id="bass-knob">
-                            <div class="knob-glow"></div>
-                            <div class="knob-inner">
-                                <div class="knob-indicator"></div>
+                    <div class="vu-meter">
+                        <div class="vu-label">BAJOS</div>
+                        <div class="vu-dial">
+                            <div class="red-zone"></div>
+                            <div class="vu-scale" id="bass-scale">
+                                <!-- Marcas de escala se generan con JS -->
                             </div>
+                            <div class="vu-needle" id="bass-needle"></div>
                         </div>
-                        <div class="knob-value">60%</div>
+                        <div class="vu-value" id="bass-value">-18 dB</div>
                     </div>
 
-                    <div class="mixer-control">
-                        <label>Medios</label>
-                        <div class="knob" id="mid-knob">
-                            <div class="knob-glow"></div>
-                            <div class="knob-inner">
-                                <div class="knob-indicator"></div>
+                    <div class="vu-meter">
+                        <div class="vu-label">MEDIOS</div>
+                        <div class="vu-dial">
+                            <div class="red-zone"></div>
+                            <div class="vu-scale" id="mid-scale">
+                                <!-- Marcas de escala se generan con JS -->
                             </div>
+                            <div class="vu-needle" id="mid-needle"></div>
                         </div>
-                        <div class="knob-value">50%</div>
+                        <div class="vu-value" id="mid-value">-22 dB</div>
                     </div>
 
-                    <div class="mixer-control">
-                        <label>Agudos</label>
-                        <div class="knob" id="treble-knob">
-                            <div class="knob-glow"></div>
-                            <div class="knob-inner">
-                                <div class="knob-indicator"></div>
+                    <div class="vu-meter">
+                        <div class="vu-label">AGUDOS</div>
+                        <div class="vu-dial">
+                            <div class="red-zone"></div>
+                            <div class="vu-scale" id="treble-scale">
+                                <!-- Marcas de escala se generan con JS -->
+                            </div>
+                            <div class="vu-needle" id="treble-needle"></div>
+                        </div>
+                        <div class="vu-value" id="treble-value">-16 dB</div>
+                    </div>
+
+                    <div class="vu-meter vu-meter-stereo">
+                        <div class="vu-label">ESTÉREO</div>
+                        <div class="stereo-dials">
+                            <div class="stereo-channel">
+                                <div class="vu-dial">
+                                    <div class="red-zone"></div>
+                                    <div class="vu-scale" id="left-scale">
+                                        <!-- Marcas de escala se generan con JS -->
+                                    </div>
+                                    <div class="vu-needle" id="left-needle"></div>
+                                </div>
+                                <div class="stereo-label">IZQUIERDO</div>
+                            </div>
+                            <div class="stereo-channel">
+                                <div class="vu-dial">
+                                    <div class="red-zone"></div>
+                                    <div class="vu-scale" id="right-scale">
+                                        <!-- Marcas de escala se generan con JS -->
+                                    </div>
+                                    <div class="vu-needle" id="right-needle"></div>
+                                </div>
+                                <div class="stereo-label">DERECHO</div>
                             </div>
                         </div>
-                        <div class="knob-value">70%</div>
-                    </div>
-                </div>
-
-                <div class="equalizer">
-                    <div class="eq-band">
-                        <div class="eq-slider">
-                            <div class="eq-slider-fill" style="height: 60%"></div>
-                        </div>
-                        <div class="eq-label">60Hz</div>
-                    </div>
-                    <div class="eq-band">
-                        <div class="eq-slider">
-                            <div class="eq-slider-fill" style="height: 45%"></div>
-                        </div>
-                        <div class="eq-label">230Hz</div>
-                    </div>
-                    <div class="eq-band">
-                        <div class="eq-slider">
-                            <div class="eq-slider-fill" style="height: 70%"></div>
-                        </div>
-                        <div class="eq-label">910Hz</div>
-                    </div>
-                    <div class="eq-band">
-                        <div class="eq-slider">
-                            <div class="eq-slider-fill" style="height: 55%"></div>
-                        </div>
-                        <div class="eq-label">3.6kHz</div>
-                    </div>
-                    <div class="eq-band">
-                        <div class="eq-slider">
-                            <div class="eq-slider-fill" style="height: 80%"></div>
-                        </div>
-                        <div class="eq-label">14kHz</div>
                     </div>
                 </div>
             </div>
@@ -794,6 +1251,10 @@
             const mainContent = document.getElementById('main-content');
             const loadingProgress = document.getElementById('loading-progress');
             const iframeOverlay = document.querySelector('.iframe-overlay');
+            const iframeContainer = document.getElementById('iframe-container');
+            const onAirIndicator = document.getElementById('on-air-indicator');
+            const onAirText = document.getElementById('on-air-text');
+            const radioIframe = document.getElementById('radio-iframe');
 
             let progress = 0;
             const interval = setInterval(() => {
@@ -831,12 +1292,155 @@
             // Inicializar visualizador
             initVisualizer();
 
-            // Inicializar controles de mezcladora con movimiento automático
-            initDynamicMixer();
+            // Inicializar VU meters de aguja
+            initVUMeters();
 
-            // Animar mezcladora automáticamente
-            animateMixer();
+            // Inicializar carrusel
+            initCarousel();
+
+            // Controlar la visibilidad del reproductor
+            onAirIndicator.addEventListener('click', function () {
+                if (iframeContainer.style.display === 'none' || iframeContainer.style.display === '') {
+                    iframeContainer.style.display = 'block';
+                    // Simular que la radio está reproduciendo
+                    onAirText.classList.remove('paused');
+                } else {
+                    iframeContainer.style.display = 'none';
+                    // Simular que la radio está pausada
+                    onAirText.classList.add('paused');
+                }
+            });
+
+            // Simular detección de pausa/reproducción
+            // En un caso real, esto se conectaría con la API del reproductor
+            setInterval(() => {
+                // Simulación aleatoria de cambio de estado
+                if (Math.random() > 0.9) {
+                    if (onAirText.classList.contains('paused')) {
+                        onAirText.classList.remove('paused');
+                    } else {
+                        onAirText.classList.add('paused');
+                    }
+                }
+            }, 5000);
         });
+
+        // Inicializar carrusel de imágenes mejorado
+        function initCarousel() {
+            const carouselSlides = document.querySelector('.carousel-slides');
+            const slides = document.querySelectorAll('.carousel-slide');
+            const prevBtn = document.getElementById('prev-btn');
+            const nextBtn = document.getElementById('next-btn');
+            const indicators = document.querySelectorAll('.carousel-indicator');
+            const progressBars = document.querySelectorAll('.carousel-progress-bar');
+
+            let currentSlide = 0;
+            const totalSlides = slides.length;
+            let autoSlideInterval;
+            let isTransitioning = false;
+
+            // Función para cambiar de slide
+            function goToSlide(slideIndex) {
+                if (isTransitioning) return;
+
+                isTransitioning = true;
+
+                // Quitar clase active de slide actual
+                slides[currentSlide].classList.remove('active');
+                indicators[currentSlide].classList.remove('active');
+
+                // Actualizar slide actual
+                currentSlide = slideIndex;
+
+                // Añadir clase active al nuevo slide
+                slides[currentSlide].classList.add('active');
+                indicators[currentSlide].classList.add('active');
+
+                // Reiniciar la barra de progreso
+                resetProgressBar();
+
+                // Permitir transición nuevamente después de un tiempo
+                setTimeout(() => {
+                    isTransitioning = false;
+                }, 1200);
+            }
+
+            // Función para siguiente slide
+            function nextSlide() {
+                const nextIndex = (currentSlide + 1) % totalSlides;
+                goToSlide(nextIndex);
+            }
+
+            // Función para slide anterior
+            function prevSlide() {
+                const prevIndex = (currentSlide - 1 + totalSlides) % totalSlides;
+                goToSlide(prevIndex);
+            }
+
+            // Reiniciar la barra de progreso
+            function resetProgressBar() {
+                progressBars.forEach(bar => {
+                    bar.style.transition = 'none';
+                    bar.style.width = '0%';
+
+                    // Forzar reflow
+                    void bar.offsetWidth;
+
+                    // Iniciar animación
+                    bar.style.transition = 'width 3s linear';
+                    bar.style.width = '100%';
+                });
+            }
+
+            // Event listeners para botones
+            nextBtn.addEventListener('click', () => {
+                pauseAutoSlide();
+                nextSlide();
+                resumeAutoSlide();
+            });
+
+            prevBtn.addEventListener('click', () => {
+                pauseAutoSlide();
+                prevSlide();
+                resumeAutoSlide();
+            });
+
+            // Event listeners para indicadores
+            indicators.forEach(indicator => {
+                indicator.addEventListener('click', () => {
+                    const slideIndex = parseInt(indicator.getAttribute('data-index'));
+                    if (slideIndex !== currentSlide) {
+                        pauseAutoSlide();
+                        goToSlide(slideIndex);
+                        resumeAutoSlide();
+                    }
+                });
+            });
+
+            // Iniciar transición automática
+            function startAutoSlide() {
+                autoSlideInterval = setInterval(nextSlide, 3000);
+            }
+
+            // Pausar transición automática
+            function pauseAutoSlide() {
+                clearInterval(autoSlideInterval);
+            }
+
+            // Reanudar transición automática
+            function resumeAutoSlide() {
+                startAutoSlide();
+            }
+
+            // Pausar al pasar el ratón sobre el carrusel
+            const carouselContainer = document.querySelector('.carousel-container');
+            carouselContainer.addEventListener('mouseenter', pauseAutoSlide);
+            carouselContainer.addEventListener('mouseleave', resumeAutoSlide);
+
+            // Iniciar transición automática y barra de progreso
+            startAutoSlide();
+            resetProgressBar();
+        }
 
         // Crear partículas flotantes
         function createParticles() {
@@ -912,79 +1516,133 @@
             }, 100);
         }
 
-        // Inicializar mezcladora con movimiento automático
-        function initDynamicMixer() {
-            const knobs = document.querySelectorAll('.knob');
-            const values = document.querySelectorAll('.knob-value');
+        // Inicializar VU Meters de Aguja estilo velocímetro moderno
+        function initVUMeters() {
+            // Crear escalas para cada VU meter
+            createVUScale('volume-scale');
+            createVUScale('bass-scale');
+            createVUScale('mid-scale');
+            createVUScale('treble-scale');
+            createVUScale('left-scale');
+            createVUScale('right-scale');
 
-            // Valores iniciales para cada knob
-            const initialValues = [75, 60, 50, 70]; // Volumen, Bajos, Medios, Agudos
-            const directions = [1, -1, 1, -1]; // Dirección de movimiento
-
-            // Aplicar valores iniciales
-            knobs.forEach((knob, index) => {
-                const indicator = knob.querySelector('.knob-indicator');
-                const rotation = (initialValues[index] / 100) * 270 - 135;
-                indicator.style.transform = `translateX(-50%) rotate(${rotation}deg)`;
-            });
-
-            // Animar los knobs automáticamente
-            setInterval(() => {
-                knobs.forEach((knob, index) => {
-                    const indicator = knob.querySelector('.knob-indicator');
-                    const valueElement = values[index];
-
-                    // Obtener valor actual
-                    let currentValue = parseInt(valueElement.textContent);
-
-                    // Cambiar dirección si llega a los límites
-                    if (currentValue >= 95) directions[index] = -1;
-                    if (currentValue <= 5) directions[index] = 1;
-
-                    // Calcular nuevo valor
-                    const change = Math.random() * 3 + 1; // Cambio entre 1 y 4
-                    const newValue = Math.max(0, Math.min(100, currentValue + (change * directions[index])));
-
-                    // Aplicar nuevo valor
-                    const rotation = (newValue / 100) * 270 - 135;
-                    indicator.style.transform = `translateX(-50%) rotate(${rotation}deg)`;
-                    valueElement.textContent = `${Math.round(newValue)}%`;
-
-                    // Cambiar color del texto basado en el valor
-                    if (newValue > 80) {
-                        valueElement.style.color = 'var(--accent-color)';
-                        valueElement.style.textShadow = '0 0 10px var(--accent-glow)';
-                    } else if (newValue > 60) {
-                        valueElement.style.color = 'var(--neon-purple)';
-                        valueElement.style.textShadow = '0 0 8px var(--neon-purple)';
-                    } else {
-                        valueElement.style.color = 'var(--neon-blue)';
-                        valueElement.style.textShadow = '0 0 5px var(--neon-blue)';
-                    }
-                });
-            }, 800); // Actualizar cada 800ms
+            // Animar los VU meters
+            animateVUMeters();
         }
 
-        // Animar automáticamente la mezcladora
-        function animateMixer() {
-            const eqSliders = document.querySelectorAll('.eq-slider-fill');
+        // Crear escala para VU meter estilo velocímetro moderno
+        function createVUScale(containerId) {
+            const container = document.getElementById(containerId);
+            const marks = [-40, -30, -20, -10, -5, 0, 3];
+            const totalAngle = 240; // Ángulo total de la escala (240 grados como un velocímetro)
+            const startAngle = -120; // Ángulo inicial (-120 grados)
 
+            marks.forEach((mark, index) => {
+                // Crear marca de escala
+                const scaleMark = document.createElement('div');
+                scaleMark.classList.add('vu-scale-mark');
+
+                // Calcular posición angular
+                const angle = startAngle + (index / (marks.length - 1)) * totalAngle;
+                scaleMark.style.transform = `rotate(${angle}deg)`;
+
+                // Ajustar altura de la marca según la posición
+                if (mark === 0 || mark === -20 || mark === -40) {
+                    scaleMark.style.height = '16px';
+                    scaleMark.style.width = '3px';
+                    scaleMark.style.background = '#fff';
+                } else if (mark === -10 || mark === -30) {
+                    scaleMark.style.height = '12px';
+                } else {
+                    scaleMark.style.height = '8px';
+                }
+
+                container.appendChild(scaleMark);
+
+                // Crear número de escala (solo para marcas principales)
+                if (mark % 10 === 0 || mark === 3) {
+                    const scaleNumber = document.createElement('div');
+                    scaleNumber.classList.add('vu-scale-number');
+                    scaleNumber.textContent = mark;
+
+                    // Posicionar el número con orientación radial como en autos modernos
+                    const numberAngle = angle * Math.PI / 180;
+                    const radius = 58; // Radio desde el centro
+                    const x = 50 + Math.sin(numberAngle) * radius;
+                    const y = 50 - Math.cos(numberAngle) * radius;
+
+                    scaleNumber.style.left = `${x}%`;
+                    scaleNumber.style.top = `${y}%`;
+
+                    // Rotar los números para que sigan la curvatura del dial
+                    scaleNumber.style.transform = `translateX(-50%) rotate(${angle}deg)`;
+
+                    // Ajustar tamaño de fuente para números importantes
+                    if (mark === 0 || mark === -40) {
+                        scaleNumber.style.fontSize = '0.9rem';
+                        scaleNumber.style.fontWeight = 'bold';
+                    }
+
+                    container.appendChild(scaleNumber);
+                }
+            });
+        }
+
+        // Animar VU Meters de Aguja con movimiento más visible y dinámico
+        function animateVUMeters() {
+            const vuMeters = [
+                { needleId: 'volume-needle', valueId: 'volume-value', baseValue: -24, range: 18 },
+                { needleId: 'bass-needle', valueId: 'bass-value', baseValue: -18, range: 15 },
+                { needleId: 'mid-needle', valueId: 'mid-value', baseValue: -22, range: 12 },
+                { needleId: 'treble-needle', valueId: 'treble-value', baseValue: -16, range: 16 },
+                { needleId: 'left-needle', valueId: null, baseValue: -20, range: 18 },
+                { needleId: 'right-needle', valueId: null, baseValue: -20, range: 18 }
+            ];
+
+            // Valores actuales para cada medidor (para transiciones suaves)
+            const currentValues = {};
+            vuMeters.forEach(meter => {
+                currentValues[meter.needleId] = meter.baseValue;
+            });
+
+            // Animar VU meters principales
             setInterval(() => {
-                eqSliders.forEach(slider => {
-                    // Cambiar altura aleatoriamente para simular ajustes en tiempo real
-                    const newHeight = Math.random() * 70 + 20;
-                    slider.style.height = `${newHeight}%`;
+                vuMeters.forEach(meter => {
+                    const needle = document.getElementById(meter.needleId);
+                    const valueElement = meter.valueId ? document.getElementById(meter.valueId) : null;
 
-                    // Cambiar color basado en la altura
-                    if (newHeight > 70) {
-                        slider.style.background = 'linear-gradient(to top, var(--accent-color), var(--neon-pink))';
-                    } else if (newHeight > 50) {
-                        slider.style.background = 'linear-gradient(to top, var(--neon-purple), var(--accent-color))';
-                    } else {
-                        slider.style.background = 'linear-gradient(to top, var(--neon-blue), var(--neon-purple))';
+                    // Generar valores objetivo aleatorios para simular audio con más variación
+                    const targetValue = meter.baseValue + (Math.random() * meter.range - meter.range / 2);
+                    const dbValue = Math.max(-40, Math.min(3, targetValue));
+
+                    // Suavizar el movimiento hacia el valor objetivo
+                    const currentValue = currentValues[meter.needleId];
+                    const smoothedValue = currentValue + (dbValue - currentValue) * 0.4; // Más rápido y visible
+                    currentValues[meter.needleId] = smoothedValue;
+
+                    // Calcular ángulo de la aguja (-40dB = -120°, +3dB = +120°)
+                    const angle = -120 + ((smoothedValue + 40) / 43) * 240;
+
+                    // Actualizar aguja
+                    if (needle) {
+                        needle.style.transform = `translateX(-50%) rotate(${angle}deg)`;
+                    }
+
+                    // Actualizar valor numérico (solo para los primeros 4 metros)
+                    if (valueElement) {
+                        valueElement.textContent = `${Math.round(smoothedValue)} dB`;
+
+                        // Cambiar color del texto según el nivel
+                        if (smoothedValue > 0) {
+                            valueElement.className = 'vu-value critical';
+                        } else if (smoothedValue > -10) {
+                            valueElement.className = 'vu-value high';
+                        } else {
+                            valueElement.className = 'vu-value';
+                        }
                     }
                 });
-            }, 600);
+            }, 120); // Actualización más rápida para movimiento más visible
         }
     </script>
 </body>
