@@ -4,224 +4,465 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Radio Dinámica FM - La Nueva Radio!</title>
+    <title>Radio Dinámica - Yanapak</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root {
-            --primary-color: #0a0a1a;
-            --secondary-color: #1a1a2e;
-            --accent-color: #e94560;
-            --accent-glow: #ff2e63;
-            --text-color: #ffffff;
-            --neon-blue: #00f3ff;
-            --neon-purple: #b967ff;
-            --neon-pink: #ff2e93;
-            --on-air-green: #00ff88;
-            --on-air-red: #ff2e2e;
-            --vu-black: #000000;
-            --vu-chrome: #c0c0c0;
-            --vu-white: #ffffff;
-            --vu-red: #ff0000;
-            --vu-glow: #ff3333;
-        }
-
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            font-family: 'Rajdhani', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
+        @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&display=swap');
+
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            color: var(--text-color);
+            background: linear-gradient(rgba(5, 5, 15, 0.95), rgba(2, 2, 10, 0.95)),
+                url('https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: #fff;
             min-height: 100vh;
+            display: flex;
+            flex-direction: column;
             overflow-x: hidden;
         }
 
-        /* Pantalla de carga */
+        /* Pantalla de carga mejorada */
         #loading-screen {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: var(--primary-color);
+            background: linear-gradient(135deg, #0a0a1a 0%, #151530 50%, #0a0a1a 100%);
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             z-index: 9999;
-            transition: opacity 0.8s ease-out;
+            transition: opacity 1s ease;
         }
 
-        .logo-container {
+        .loading-content {
             text-align: center;
-            margin-bottom: 2rem;
-            animation: pulse 2s infinite;
+            position: relative;
         }
 
-        .radio-logo {
-            max-width: 350px;
-            max-height: 250px;
-            margin-bottom: 1rem;
-            filter: drop-shadow(0 0 15px var(--accent-glow));
+        .loading-logo {
+            width: 200px;
+            height: 200px;
+            margin: 0 auto 30px;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
-        .logo-subtitle {
-            font-size: 1.8rem;
-            color: var(--neon-blue);
-            letter-spacing: 2px;
-            text-shadow: 0 0 10px var(--neon-blue);
-            margin-top: 0.5rem;
+        .logo-img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            box-shadow: 0 0 30px rgba(0, 100, 255, 0.7);
+            border: 3px solid rgba(100, 100, 255, 0.5);
+        }
+
+        .loading-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #ff0055, #ffaa00, #00ffaa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 15px rgba(0, 200, 255, 0.4);
+            letter-spacing: 3px;
+        }
+
+        .loading-subtitle {
+            font-size: 1.2rem;
+            color: #a0a0ff;
+            margin-bottom: 40px;
+            letter-spacing: 1px;
+        }
+
+        .loading-bar-container {
+            width: 400px;
+            height: 12px;
+            background: rgba(20, 20, 40, 0.8);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 20px;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(100, 100, 255, 0.3);
         }
 
         .loading-bar {
-            width: 400px;
-            height: 6px;
-            background-color: rgba(255, 255, 255, 0.1);
-            border-radius: 4px;
-            overflow: hidden;
-            margin-top: 2rem;
-            box-shadow: 0 0 10px rgba(0, 243, 255, 0.3);
-        }
-
-        .loading-progress {
             height: 100%;
             width: 0%;
-            background: linear-gradient(90deg, var(--neon-blue), var(--neon-purple));
-            border-radius: 4px;
+            background: linear-gradient(90deg, #ff0055, #ff4400, #ffaa00, #00ffaa, #0088ff);
+            border-radius: 10px;
             transition: width 0.3s ease;
-            box-shadow: 0 0 10px var(--neon-blue);
-        }
-
-        @keyframes pulse {
-            0% {
-                transform: scale(1);
-            }
-
-            50% {
-                transform: scale(1.05);
-            }
-
-            100% {
-                transform: scale(1);
-            }
-        }
-
-        /* Contenido principal */
-        #main-content {
-            display: none;
-            opacity: 0;
-            transition: opacity 0.8s ease-in;
-        }
-
-        .header {
-            text-align: center;
-            padding: 2rem 1rem;
-            background: rgba(10, 10, 26, 0.8);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 0 15px rgba(0, 200, 255, 0.7);
             position: relative;
             overflow: hidden;
         }
 
-        .header::before {
+        .loading-bar::after {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
-            right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, var(--neon-blue), var(--neon-purple), var(--accent-color));
-            animation: headerGlow 3s infinite;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            animation: shimmer 1.5s infinite;
         }
 
-        @keyframes headerGlow {
+        .loading-particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #00ffff;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #00ffff;
+            animation: float 6s infinite ease-in-out;
+        }
+
+        @keyframes rotate {
             0% {
-                opacity: 0.7;
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes shimmer {
+            0% {
+                transform: translateX(-100%);
+            }
+
+            100% {
+                transform: translateX(100%);
+            }
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0) translateX(0);
+                opacity: 0;
+            }
+
+            50% {
+                transform: translateY(-20px) translateX(10px);
+                opacity: 1;
+            }
+
+            80% {
+                transform: translateY(10px) translateX(-10px);
+                opacity: 0;
+            }
+        }
+
+        /* Header con logo - TRANSPARENTE */
+        .header-section {
+            width: 100%;
+            padding: 30px 0;
+            text-align: center;
+            background: transparent;
+            backdrop-filter: blur(5px);
+            border-bottom: 1px solid rgba(100, 100, 255, 0.2);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .header-logo {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 0 30px rgba(0, 100, 255, 0.7);
+            border: 3px solid rgba(100, 100, 255, 0.5);
+            overflow: hidden;
+        }
+
+        .header-logo-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .header-title {
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(45deg, #ff0055, #ffaa00, #00ffaa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 20px rgba(0, 200, 255, 0.5);
+            letter-spacing: 3px;
+            margin-bottom: 10px;
+        }
+
+        .header-subtitle {
+            font-size: 1.3rem;
+            color: #a0a0ff;
+            letter-spacing: 2px;
+        }
+
+        /* Reproductor personalizado - CON POSICIÓN CORREGIDA */
+        .player-section {
+            flex: 1;
+            min-width: 300px;
+            background: rgba(10, 10, 20, 0.8);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+            border: 1px solid rgba(100, 100, 255, 0.3);
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .player-section h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #00ffaa;
+            font-size: 1.5rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .player-container {
+            position: relative;
+            width: 100%;
+            height: 400px;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(100, 100, 255, 0.2);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #0a0a1a 0%, #151530 100%);
+        }
+
+        .on-air-indicator {
+            position: absolute;
+            top: 20px;
+            /* ARRIBA DEL TODO */
+            right: 25px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            z-index: 10;
+        }
+
+        .on-air-dot {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        .on-air-dot.loading {
+            background: #00ff00;
+            box-shadow: 0 0 20px #00ff00, 0 0 30px #00ff00;
+        }
+
+        .on-air-dot.live {
+            background: #ff0000;
+            box-shadow: 0 0 20px #ff0000, 0 0 30px #ff0000;
+        }
+
+        .on-air-text {
+            font-size: 1.3rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            padding: 8px 18px;
+            border-radius: 25px;
+            background: rgba(0, 0, 0, 0.6);
+        }
+
+        .on-air-text.loading {
+            color: #00ff00;
+            text-shadow: 0 0 15px #00ff00;
+            border: 2px solid #00ff00;
+        }
+
+        .on-air-text.live {
+            color: #ff0000;
+            text-shadow: 0 0 15px #ff0000;
+            border: 2px solid #ff0000;
+        }
+
+        .player-content {
+            text-align: center;
+            z-index: 5;
+            padding: 20px;
+            margin-top: 120px;
+            /* MUCHO MÁS ABAJO - SEPARADO DEL ON AIR */
+        }
+
+        .player-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 30px;
+            background: linear-gradient(45deg, #ff0055, #ffaa00, #00ffaa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 15px rgba(0, 200, 255, 0.5);
+        }
+
+        .player-subtitle {
+            font-size: 1.2rem;
+            color: #a0a0ff;
+            margin-bottom: 40px;
+            max-width: 400px;
+        }
+
+        .frequency-display {
+            margin-top: 35px;
+            text-align: center;
+        }
+
+        .frequency {
+            font-size: 3rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, #ff0055, #ffaa00);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 20px rgba(255, 170, 0, 0.7);
+            letter-spacing: 3px;
+        }
+
+        .frequency-label {
+            font-size: 1.1rem;
+            color: #a0a0ff;
+            margin-top: 15px;
+            letter-spacing: 2px;
+        }
+
+        .status-message {
+            margin-top: 40px;
+            font-size: 1.1rem;
+            color: #a0a0ff;
+            text-align: center;
+            max-width: 400px;
+        }
+
+        .visualizer {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 80px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            gap: 3px;
+            padding: 0 20px 20px;
+        }
+
+        .bar {
+            width: 6px;
+            background: linear-gradient(to top, #ff0055, #ffaa00, #00ffaa);
+            border-radius: 3px 3px 0 0;
+            animation: visualizer 1.5s ease-in-out infinite alternate;
+        }
+
+        .bar:nth-child(odd) {
+            animation-delay: 0.2s;
+        }
+
+        .bar:nth-child(even) {
+            animation-delay: 0.4s;
+        }
+
+        .iframe-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        @keyframes pulse {
+            0% {
+                opacity: 0.6;
+                transform: scale(0.95);
             }
 
             50% {
                 opacity: 1;
+                transform: scale(1.1);
             }
 
             100% {
-                opacity: 0.7;
+                opacity: 0.6;
+                transform: scale(0.95);
             }
         }
 
-        .header-logo {
-            max-width: 250px;
-            margin-bottom: 1rem;
-            filter: drop-shadow(0 0 10px var(--accent-glow));
+        @keyframes visualizer {
+            0% {
+                height: 10%;
+            }
+
+            100% {
+                height: 90%;
+            }
         }
 
-        .header h1 {
-            font-size: 3rem;
-            margin-bottom: 0.5rem;
-            background: linear-gradient(45deg, var(--accent-color), var(--neon-purple), var(--neon-blue));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            text-shadow: 0 0 15px rgba(233, 69, 96, 0.5);
-            letter-spacing: 2px;
-        }
-
-        .header p {
-            color: #aaa;
-            font-size: 1.3rem;
-            letter-spacing: 1px;
-        }
-
-        /* NUEVO CARRUSEL DE IMÁGENES MEJORADO */
+        /* Resto del CSS se mantiene igual... */
         .carousel-section {
             width: 100%;
-            max-width: 1200px;
-            margin: 2rem auto;
-            padding: 0 1rem;
-        }
-
-        .carousel-title {
-            text-align: center;
-            margin-bottom: 1.5rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .carousel-title i {
-            font-size: 2rem;
-            color: var(--accent-color);
-            margin-right: 15px;
-            text-shadow: 0 0 10px var(--accent-glow);
-        }
-
-        .carousel-title h2 {
-            font-size: 1.8rem;
-            background: linear-gradient(45deg, var(--neon-blue), var(--neon-purple));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-
-        .carousel-container {
+            max-width: 1000px;
+            margin: 30px auto;
+            height: 300px;
             position: relative;
-            width: 100%;
-            height: 500px;
-            border-radius: 20px;
             overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(233, 69, 96, 0.3);
-            background: rgba(22, 22, 40, 0.7);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
         }
 
-        .carousel-slides {
-            position: relative;
+        .carousel {
             width: 100%;
             height: 100%;
+            position: relative;
         }
 
         .carousel-slide {
@@ -231,1419 +472,835 @@
             width: 100%;
             height: 100%;
             opacity: 0;
-            transition: opacity 1.2s ease-in-out, transform 1.2s ease-in-out;
-            transform: scale(1.05);
+            transition: opacity 1.5s ease-in-out;
+            background-size: cover;
+            background-position: center;
             display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
+            align-items: center;
+            justify-content: center;
         }
 
         .carousel-slide.active {
             opacity: 1;
-            transform: scale(1);
-            z-index: 2;
         }
 
-        .carousel-slide.next {
-            opacity: 0;
-            transform: translateX(20px);
-            z-index: 1;
-        }
-
-        .carousel-slide.prev {
-            opacity: 0;
-            transform: translateX(-20px);
-            z-index: 1;
-        }
-
-        .carousel-image {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            filter: brightness(0.8);
-            transition: filter 0.5s ease;
-        }
-
-        .carousel-slide.active .carousel-image {
-            filter: brightness(1);
-        }
-
-        .carousel-caption {
+        .carousel-slide::before {
+            content: '';
             position: absolute;
-            bottom: 0;
+            top: 0;
             left: 0;
             width: 100%;
-            padding: 2rem;
-            background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
-            color: white;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(0, 0, 20, 0.7) 0%, rgba(30, 0, 60, 0.5) 100%);
+        }
+
+        .carousel-content {
+            position: relative;
+            z-index: 2;
             text-align: center;
-            font-size: 1.5rem;
-            font-weight: bold;
-            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.7);
-            z-index: 3;
-            transform: translateY(100%);
-            transition: transform 0.8s ease;
+            max-width: 800px;
+            padding: 0 20px;
         }
 
-        .carousel-slide.active .carousel-caption {
-            transform: translateY(0);
+        .carousel-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            background: linear-gradient(45deg, #ff0055, #ffaa00, #00ffaa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 15px rgba(0, 200, 255, 0.5);
+            letter-spacing: 2px;
         }
 
-        .carousel-control {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background: rgba(0, 0, 0, 0.5);
-            color: white;
-            border: none;
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            font-size: 1.8rem;
-            transition: all 0.3s ease;
-            z-index: 10;
-            backdrop-filter: blur(5px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .carousel-control:hover {
-            background: rgba(233, 69, 96, 0.8);
-            box-shadow: 0 0 20px var(--accent-glow);
-            transform: translateY(-50%) scale(1.1);
-        }
-
-        .carousel-control.prev {
-            left: 25px;
-        }
-
-        .carousel-control.next {
-            right: 25px;
+        .carousel-subtitle {
+            font-size: 1.2rem;
+            color: #a0a0ff;
+            letter-spacing: 1px;
         }
 
         .carousel-indicators {
             position: absolute;
-            bottom: 25px;
+            bottom: 20px;
             left: 50%;
             transform: translateX(-50%);
             display: flex;
-            gap: 12px;
-            z-index: 10;
+            gap: 15px;
+            z-index: 3;
         }
 
-        .carousel-indicator {
-            width: 14px;
-            height: 14px;
+        .indicator {
+            width: 12px;
+            height: 12px;
             border-radius: 50%;
-            background: rgba(255, 255, 255, 0.4);
+            background: rgba(255, 255, 255, 0.3);
             cursor: pointer;
             transition: all 0.3s ease;
             border: 2px solid transparent;
         }
 
-        .carousel-indicator.active {
-            background: var(--accent-color);
-            box-shadow: 0 0 15px var(--accent-glow);
-            transform: scale(1.3);
-            border-color: rgba(255, 255, 255, 0.8);
+        .indicator.active {
+            background: #00ffaa;
+            box-shadow: 0 0 10px #00ffaa;
+            transform: scale(1.2);
         }
 
-        .carousel-indicator:hover {
-            background: var(--neon-blue);
-            box-shadow: 0 0 10px var(--neon-blue);
-        }
-
-        .carousel-progress {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            height: 4px;
-            width: 100%;
-            background: rgba(255, 255, 255, 0.1);
-            z-index: 10;
-        }
-
-        .carousel-progress-bar {
-            height: 100%;
-            width: 0%;
-            background: linear-gradient(90deg, var(--neon-blue), var(--accent-color));
-            transition: width 3s linear;
-            box-shadow: 0 0 10px var(--neon-blue);
-        }
-
-        .carousel-slide.active .carousel-progress-bar {
-            width: 100%;
-        }
-
-        .content {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 3rem;
-            padding: 3rem;
-            max-width: 1400px;
+        /* Contenido principal */
+        .container {
+            max-width: 1200px;
             margin: 0 auto;
-        }
-
-        .player-section {
-            flex: 1;
-            min-width: 350px;
-            max-width: 600px;
-            background: rgba(22, 22, 40, 0.7);
-            border-radius: 20px;
-            padding: 2.5rem;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(233, 69, 96, 0.3);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .player-section::before {
-            content: '';
-            position: absolute;
-            top: -10px;
-            left: -10px;
-            right: -10px;
-            bottom: -10px;
-            background: linear-gradient(45deg, var(--neon-blue), transparent, var(--accent-color));
-            z-index: -1;
-            border-radius: 25px;
-            opacity: 0.1;
-        }
-
-        .player-title {
-            display: flex;
-            align-items: center;
-            margin-bottom: 2rem;
-        }
-
-        .player-title i {
-            font-size: 2rem;
-            color: var(--accent-color);
-            margin-right: 15px;
-            text-shadow: 0 0 10px var(--accent-glow);
-        }
-
-        .player-title h2 {
-            font-size: 1.8rem;
-            background: linear-gradient(45deg, var(--neon-blue), var(--neon-purple));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-
-        .player-container {
-            position: relative;
-            margin-bottom: 2rem;
-        }
-
-        /* Indicador ON AIR */
-        .on-air-indicator {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-bottom: 2rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .on-air-indicator:hover {
-            transform: scale(1.05);
-        }
-
-        .on-air-text {
-            font-size: 2.5rem;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 4px;
-            padding: 1rem 2rem;
-            border-radius: 50px;
-            background: rgba(0, 0, 0, 0.3);
-            box-shadow: 0 0 20px rgba(0, 255, 136, 0.5);
-            position: relative;
-            overflow: hidden;
-            transition: all 0.5s ease;
-        }
-
-        .on-air-text::before {
-            content: '';
-            position: absolute;
-            top: -2px;
-            left: -2px;
-            right: -2px;
-            bottom: -2px;
-            background: linear-gradient(45deg, var(--on-air-green), transparent, var(--on-air-green));
-            z-index: -1;
-            border-radius: 50px;
-            opacity: 0.7;
-            animation: onAirGlow 2s infinite;
-        }
-
-        .on-air-text.paused {
-            box-shadow: 0 0 20px rgba(255, 46, 46, 0.5);
-        }
-
-        .on-air-text.paused::before {
-            background: linear-gradient(45deg, var(--on-air-red), transparent, var(--on-air-red));
-        }
-
-        @keyframes onAirGlow {
-            0% {
-                opacity: 0.5;
-            }
-
-            50% {
-                opacity: 1;
-            }
-
-            100% {
-                opacity: 0.5;
-            }
-        }
-
-        /* Contenedor del iframe con overlay para ocultar el verde */
-        .iframe-container {
-            position: relative;
-            width: 100%;
-            height: 150px;
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-            background: rgba(10, 10, 26, 0.8);
-            display: none;
-            /* Oculto inicialmente */
-            transition: all 0.5s ease;
-        }
-
-        .iframe-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, rgba(10, 10, 26, 0.9), rgba(22, 22, 40, 0.8));
+            padding: 20px;
             display: flex;
             flex-direction: column;
-            justify-content: center;
             align-items: center;
-            z-index: 2;
-            pointer-events: none;
-        }
-
-        .player-frame {
-            width: 100%;
-            height: 100%;
-            border: none;
-            position: relative;
-            z-index: 1;
-        }
-
-        .status-indicator {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: var(--accent-color);
-            margin-right: 10px;
-            box-shadow: 0 0 10px var(--accent-color);
-            animation: pulse 2s infinite;
-        }
-
-        .status-text {
-            font-size: 1.3rem;
-            color: var(--neon-blue);
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-        }
-
-        .loading-text {
-            color: #aaa;
-            font-size: 1rem;
-        }
-
-        .visualizer {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-            height: 120px;
-            margin-top: 2rem;
-            padding: 0 15px;
-            border-radius: 10px;
-            background: rgba(0, 0, 0, 0.3);
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
-        }
-
-        .bar {
-            width: 10px;
-            background: linear-gradient(to top, var(--neon-blue), var(--neon-purple));
-            border-radius: 5px 5px 0 0;
-            transition: height 0.15s ease;
-            box-shadow: 0 0 8px var(--neon-blue);
-        }
-
-        /* NUEVA SECCIÓN DE MEZCLADORA CON VU METERS ESTILO VELOCÍMETRO MODERNO */
-        .mixer-section {
+            opacity: 0;
+            transition: opacity 1s ease;
             flex: 1;
-            min-width: 350px;
-            max-width: 600px;
-            background: rgba(22, 22, 40, 0.7);
-            border-radius: 20px;
-            padding: 2.5rem;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(0, 243, 255, 0.3);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            position: relative;
-            overflow: hidden;
         }
 
-        .mixer-section::before {
-            content: '';
-            position: absolute;
-            top: -10px;
-            left: -10px;
-            right: -10px;
-            bottom: -10px;
-            background: linear-gradient(45deg, var(--accent-color), transparent, var(--neon-blue));
-            z-index: -1;
-            border-radius: 25px;
-            opacity: 0.1;
-        }
-
-        .mixer-title {
+        /* Contenido de radio */
+        .radio-content {
             display: flex;
+            width: 100%;
+            gap: 40px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        /* Vumetros estilo automotriz - MEJOR SEPARADOS */
+        .vu-meters-section {
+            flex: 1;
+            min-width: 300px;
+            background: rgba(10, 10, 20, 0.8);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+            border: 1px solid rgba(100, 100, 255, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        .vu-meters-section h2 {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #00ffaa;
+            font-size: 1.5rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .vu-meters-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 35px;
+        }
+
+        .vu-meter-item {
+            display: flex;
+            flex-direction: column;
             align-items: center;
-            margin-bottom: 2rem;
+            margin-bottom: 15px;
         }
 
-        .mixer-title i {
-            font-size: 2rem;
-            color: var(--neon-blue);
-            margin-right: 15px;
-            text-shadow: 0 0 10px var(--neon-blue);
-        }
-
-        .mixer-title h2 {
-            font-size: 1.8rem;
-            background: linear-gradient(45deg, var(--neon-blue), var(--accent-color));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
+        .vu-meter-label {
+            margin-top: 20px;
+            font-weight: 600;
+            color: #00ffaa;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            text-shadow: 0 0 10px rgba(0, 255, 170, 0.5);
         }
 
         .vu-container {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 2rem;
-            margin-bottom: 2rem;
+            position: relative;
+            width: 160px;
+            height: 160px;
+            margin: 0 auto;
         }
 
         .vu-meter {
-            background: linear-gradient(145deg, #0a0a0a, #000000);
-            border-radius: 12px;
-            padding: 1.5rem 1rem;
-            box-shadow:
-                inset 0 0 15px rgba(0, 0, 0, 0.9),
-                0 5px 20px rgba(0, 0, 0, 0.7),
-                0 0 0 2px #333,
-                0 0 0 4px #111;
             position: relative;
-            overflow: hidden;
-            border: 1px solid #444;
+            width: 100%;
+            height: 100%;
         }
 
-        .vu-label {
-            text-align: center;
-            margin-bottom: 1rem;
-            font-size: 1.1rem;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: var(--vu-white);
-            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
-            z-index: 2;
-            position: relative;
-        }
-
-        .vu-dial {
-            width: 170px;
-            height: 170px;
-            margin: 0 auto;
-            position: relative;
-            background:
-                radial-gradient(circle at center, #111, #000),
-                radial-gradient(circle at 30% 30%, #222, transparent 70%);
-            border-radius: 50%;
-            box-shadow:
-                inset 0 0 25px rgba(0, 0, 0, 0.95),
-                0 0 15px rgba(0, 0, 0, 0.8);
-            border: 12px solid var(--vu-chrome);
-            z-index: 1;
-            overflow: hidden;
-        }
-
-        .vu-dial::before {
-            content: '';
+        .vu-face {
             position: absolute;
-            top: 5px;
-            left: 5px;
-            right: 5px;
-            bottom: 5px;
-            border: 2px solid #222;
+            width: 100%;
+            height: 100%;
             border-radius: 50%;
-            z-index: 1;
+            background: radial-gradient(circle at 30% 30%, #1a1a2a, #0a0a15);
+            box-shadow:
+                inset 0 0 30px rgba(0, 0, 0, 0.8),
+                0 0 20px rgba(0, 50, 100, 0.5);
+            border: 2px solid #222240;
         }
 
         .vu-scale {
             position: absolute;
-            top: 0;
-            left: 0;
+            width: 90%;
+            height: 90%;
+            top: 5%;
+            left: 5%;
+        }
+
+        .vu-numbers {
+            position: absolute;
             width: 100%;
             height: 100%;
-            border-radius: 50%;
-            z-index: 2;
         }
 
-        .vu-scale-mark {
+        .vu-number {
             position: absolute;
-            top: 0;
-            left: 50%;
-            width: 2px;
-            height: 12px;
-            background: var(--vu-white);
-            transform-origin: bottom center;
-            opacity: 0.7;
-        }
-
-        .vu-scale-number {
-            position: absolute;
-            font-size: 0.8rem;
-            font-weight: bold;
-            color: var(--vu-white);
-            transform: translateX(-50%) rotate(0deg);
-            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
+            color: #a0a0ff;
+            font-size: 12px;
+            font-weight: 600;
             transform-origin: center;
+            text-shadow: 0 0 5px rgba(100, 100, 255, 0.7);
+        }
+
+        .vu-ticks {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        .vu-tick {
+            position: absolute;
+            width: 2px;
+            background: #333355;
+            transform-origin: bottom center;
+            left: 50%;
+            margin-left: -1px;
+            bottom: 50%;
+        }
+
+        .vu-tick.major {
+            height: 12px;
+            background: linear-gradient(to top, #ff0055, #ff4400);
+            box-shadow: 0 0 5px rgba(255, 0, 85, 0.7);
+        }
+
+        .vu-tick.minor {
+            height: 6px;
+            background: #444466;
         }
 
         .vu-needle {
             position: absolute;
-            top: 10%;
-            left: 50%;
             width: 3px;
-            height: 42%;
-            background: linear-gradient(to top, transparent 10%, var(--vu-red) 40%, var(--vu-red) 100%);
+            height: 45%;
+            background: linear-gradient(to top, #00ffaa, #0088ff);
+            bottom: 50%;
+            left: 50%;
             transform-origin: bottom center;
-            transform: translateX(-50%) rotate(-120deg);
-            transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.3, 1);
-            z-index: 4;
+            transform: translateX(-50%) rotate(-90deg);
             border-radius: 2px;
-            box-shadow: 0 0 10px var(--vu-glow);
+            box-shadow: 0 0 10px rgba(0, 255, 200, 0.7);
+            transition: transform 0.1s ease;
+            z-index: 10;
         }
 
-        .vu-needle::before {
+        .vu-center {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: radial-gradient(circle, #00aaff, #0055ff);
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 15px rgba(0, 150, 255, 0.8);
+            z-index: 11;
+            border: 2px solid #0a0a1a;
+        }
+
+        .vu-center::after {
             content: '';
             position: absolute;
-            bottom: 0;
+            width: 8px;
+            height: 8px;
+            background: #0a0a1a;
+            border-radius: 50%;
+            top: 50%;
             left: 50%;
-            transform: translateX(-50%);
-            width: 18px;
-            height: 18px;
-            background: radial-gradient(circle, var(--vu-red), #800000);
-            border-radius: 50%;
-            box-shadow: 0 0 12px var(--vu-glow);
-            z-index: 5;
+            transform: translate(-50%, -50%);
         }
 
-        .vu-needle::after {
-            content: '';
-            position: absolute;
-            bottom: -6px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 12px;
-            height: 12px;
-            background: var(--vu-chrome);
-            border-radius: 50%;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.9);
-            z-index: 3;
-        }
-
-        .vu-value {
-            text-align: center;
-            margin-top: 0.8rem;
-            font-size: 1.1rem;
-            font-weight: bold;
-            color: var(--vu-white);
-            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
-            transition: all 0.5s ease;
-            z-index: 2;
-            position: relative;
-            background: rgba(0, 0, 0, 0.7);
-            padding: 0.3rem 0.8rem;
-            border-radius: 8px;
-            display: inline-block;
-            border: 1px solid #333;
-        }
-
-        .vu-value.high {
-            color: #ff9900;
-            text-shadow: 0 0 6px rgba(255, 153, 0, 0.8);
-        }
-
-        .vu-value.critical {
-            color: var(--vu-red);
-            text-shadow: 0 0 10px var(--vu-glow);
-            animation: criticalPulse 0.7s infinite alternate;
-        }
-
-        @keyframes criticalPulse {
-            0% {
-                opacity: 0.7;
-            }
-
-            100% {
-                opacity: 1;
-            }
-        }
-
-        .vu-meter-stereo {
-            grid-column: 1 / -1;
-            margin-top: 1rem;
-        }
-
-        .stereo-dials {
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-        }
-
-        .stereo-channel {
-            text-align: center;
-        }
-
-        .stereo-label {
-            margin-top: 0.8rem;
-            font-size: 1rem;
-            font-weight: bold;
-            color: var(--vu-white);
-            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
-            background: rgba(0, 0, 0, 0.7);
-            padding: 0.3rem 0.8rem;
-            border-radius: 8px;
-            display: inline-block;
-            border: 1px solid #333;
-        }
-
-        .red-zone {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            background: conic-gradient(from -120deg, transparent 240deg, rgba(255, 0, 0, 0.15) 240deg, rgba(255, 0, 0, 0.15) 300deg);
-            z-index: 0;
-        }
-
+        /* Footer mejorado */
         .footer {
-            text-align: center;
-            padding: 2.5rem;
-            margin-top: 3rem;
-            background: rgba(10, 10, 26, 0.8);
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            background: rgba(5, 5, 15, 0.95);
+            padding: 40px 0 30px;
+            margin-top: 50px;
+            border-top: 1px solid rgba(100, 100, 255, 0.3);
         }
 
-        .footer p {
-            font-size: 1.1rem;
-            margin-bottom: 1.5rem;
-            color: #aaa;
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 25px;
         }
 
         .social-links {
             display: flex;
-            justify-content: center;
-            gap: 2rem;
-            margin-top: 1rem;
+            gap: 25px;
         }
 
         .social-link {
-            width: 50px;
-            height: 50px;
+            width: 55px;
+            height: 55px;
             border-radius: 50%;
-            background: rgba(255, 255, 255, 0.1);
             display: flex;
-            justify-content: center;
             align-items: center;
-            color: white;
-            text-decoration: none;
+            justify-content: center;
+            background: rgba(20, 20, 40, 0.9);
             transition: all 0.3s ease;
-            font-size: 1.3rem;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            border: 2px solid rgba(100, 100, 255, 0.4);
+            text-decoration: none;
+            font-size: 1.6rem;
+            color: #fff;
         }
 
         .social-link:hover {
-            background: var(--accent-color);
             transform: translateY(-5px) scale(1.1);
-            box-shadow: 0 5px 15px var(--accent-glow);
+            box-shadow: 0 5px 20px rgba(0, 200, 255, 0.7);
+            border-color: #00ffaa;
         }
 
-        /* Efectos de partículas */
-        .particles {
-            position: fixed;
-            top: 0;
-            left: 0;
+        .whatsapp {
+            background: linear-gradient(45deg, #25D366, #128C7E);
+        }
+
+        .facebook {
+            background: linear-gradient(45deg, #1877F2, #0D5F9E);
+        }
+
+        .instagram {
+            background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
+        }
+
+        .copyright {
+            color: #a0a0ff;
+            font-size: 0.95rem;
+            text-align: center;
+            line-height: 1.5;
+        }
+
+        /* Efectos de luces */
+        .light-effect {
+            position: absolute;
             width: 100%;
             height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
             z-index: -1;
-            overflow: hidden;
         }
 
-        .particle {
-            position: absolute;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            animation: float 15s infinite linear;
-        }
-
-        @keyframes float {
-            0% {
-                transform: translateY(100vh) rotate(0deg);
-            }
-
-            100% {
-                transform: translateY(-100px) rotate(360deg);
-            }
-        }
-
-        /* Efectos de luz */
         .light-beam {
             position: absolute;
             width: 100%;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, var(--neon-blue), transparent);
-            box-shadow: 0 0 10px var(--neon-blue);
-            opacity: 0.5;
-            animation: sweep 8s infinite linear;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #ff0055, #ffaa00, #00ffaa, #0088ff, transparent);
+            opacity: 0.2;
+            animation: beamMove 8s linear infinite;
         }
 
-        @keyframes sweep {
+        @keyframes beamMove {
             0% {
-                top: 0%;
-                transform: rotate(0deg);
+                top: 10%;
+            }
+
+            50% {
+                top: 90%;
             }
 
             100% {
-                top: 100%;
-                transform: rotate(360deg);
-            }
-        }
-
-        /* Efectos de brillo neón */
-        .neon-glow {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            background: radial-gradient(circle at center, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
-            opacity: 0;
-            animation: neonPulse 4s infinite alternate;
-            pointer-events: none;
-        }
-
-        @keyframes neonPulse {
-            0% {
-                opacity: 0.1;
-            }
-
-            100% {
-                opacity: 0.3;
+                top: 10%;
             }
         }
 
         /* Responsive */
         @media (max-width: 768px) {
-            .content {
+            .radio-content {
                 flex-direction: column;
-                align-items: center;
-                padding: 1.5rem;
             }
 
-            .player-section,
-            .mixer-section {
-                width: 100%;
-            }
-
-            .vu-container {
+            .vu-meters-container {
                 grid-template-columns: 1fr;
+                gap: 25px;
             }
 
-            .vu-dial {
-                width: 150px;
-                height: 150px;
-            }
-
-            .stereo-dials {
-                flex-direction: column;
-                gap: 1.5rem;
-            }
-
-            .radio-logo {
-                max-width: 280px;
-            }
-
-            .header h1 {
+            .header-title {
                 font-size: 2.2rem;
             }
 
-            .on-air-text {
-                font-size: 2rem;
-                padding: 0.8rem 1.5rem;
+            .carousel-section {
+                height: 250px;
             }
 
-            .carousel-container {
-                height: 350px;
+            .carousel-title {
+                font-size: 1.8rem;
             }
 
-            .carousel-caption {
-                font-size: 1.2rem;
-                padding: 1.5rem;
+            .loading-bar-container {
+                width: 300px;
             }
 
-            .carousel-control {
+            .social-links {
+                gap: 20px;
+            }
+
+            .social-link {
                 width: 50px;
                 height: 50px;
-                font-size: 1.5rem;
+                font-size: 1.4rem;
+            }
+
+            .player-title {
+                font-size: 2rem;
+            }
+
+            .frequency {
+                font-size: 2.2rem;
+            }
+
+            .on-air-indicator {
+                top: 15px;
+                right: 15px;
+            }
+
+            .on-air-text {
+                font-size: 1.1rem;
+                padding: 6px 12px;
+            }
+
+            .player-content {
+                margin-top: 80px;
             }
         }
     </style>
 </head>
 
 <body>
-    <!-- Pantalla de carga -->
+    <!-- Pantalla de carga mejorada -->
     <div id="loading-screen">
-        <div class="logo-container">
-            <img src="./logo radio.jpeg" alt="Radio Dinámica FM" class="radio-logo">
-            <div class="logo-subtitle">La Nueva Radio!</div>
-        </div>
-        <div class="loading-bar">
-            <div class="loading-progress" id="loading-progress"></div>
+        <div class="loading-particles" id="particles-container"></div>
+        <div class="loading-content">
+            <div class="loading-logo">
+                <img src="logoradio.jpeg" alt="Logo Radio Dinámica" class="logo-img" id="loading-logo">
+            </div>
+            <h1 class="loading-title">RADIO DINÁMICA</h1>
+            <p class="loading-subtitle">Sintoniza la mejor experiencia musical</p>
+            <div class="loading-bar-container">
+                <div class="loading-bar" id="loading-progress"></div>
+            </div>
         </div>
     </div>
+
+    <!-- Header con logo y nombre - TRANSPARENTE -->
+    <header class="header-section">
+        <div class="header-content">
+            <div class="header-logo">
+                <img src="logoradio.jpeg" alt="Logo Radio Dinámica" class="header-logo-img" id="header-logo">
+            </div>
+            <h1 class="header-title">DINÁMICA 105 FM</h1>
+            <p class="header-subtitle">La mejor radio • Música las 24 horas</p>
+        </div>
+    </header>
 
     <!-- Contenido principal -->
-    <div id="main-content">
-        <div class="header">
-            <div class="neon-glow"></div>
-            <img src="./logo radio.jpeg" alt="Radio Dinámica FM" class="header-logo">
-            <h1>Radio Dinámica FM</h1>
-            <p>La Nueva Radio! - 10.5.5 FM</p>
-        </div>
-
-        <!-- NUEVO CARRUSEL DE IMÁGENES MEJORADO -->
-        <div class="carousel-section">
-            <div class="carousel-title">
-                <i class="fas fa-images"></i>
-                <h2>GALERÍA DE RADIO</h2>
-            </div>
-            <div class="carousel-container">
-                <div class="carousel-slides">
-                    <div class="carousel-slide active">
-                        <img src="./IMAGEN.jpg" alt="Estudio de Radio 1" class="carousel-image">
-                        <div class="carousel-caption">Estudio de Radio Profesional</div>
-                        <div class="carousel-progress">
-                            <div class="carousel-progress-bar"></div>
-                        </div>
-                    </div>
-                    <div class="carousel-slide">
-                        <img src="./IMAGEN.jpg" alt="Equipo de Radio" class="carousel-image">
-                        <div class="carousel-caption">Equipo de Transmisión</div>
-                        <div class="carousel-progress">
-                            <div class="carousel-progress-bar"></div>
-                        </div>
-                    </div>
-                    <div class="carousel-slide">
-                        <img src="./IMAGEN.jpg" alt="DJ en Acción" class="carousel-image">
-                        <div class="carousel-caption">DJ en Acción</div>
-                        <div class="carousel-progress">
-                            <div class="carousel-progress-bar"></div>
-                        </div>
-                    </div>
-                    <div class="carousel-slide">
-                        <img src="https://images.unsplash.com/photo-1508700929628-666bc8bd84ea?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
-                            alt="Micrófono Profesional" class="carousel-image">
-                        <div class="carousel-caption">Micrófono Profesional</div>
-                        <div class="carousel-progress">
-                            <div class="carousel-progress-bar"></div>
-                        </div>
-                    </div>
-                    <div class="carousel-slide">
-                        <img src="./IMAGEN.jpg" alt="Audífonos de Estudio" class="carousel-image">
-                        <div class="carousel-caption">Audífonos de Estudio</div>
-                        <div class="carousel-progress">
-                            <div class="carousel-progress-bar"></div>
-                        </div>
-                    </div>
-                </div>
-                <button class="carousel-control prev" id="prev-btn">
-                    <i class="fas fa-chevron-left"></i>
-                </button>
-                <button class="carousel-control next" id="next-btn">
-                    <i class="fas fa-chevron-right"></i>
-                </button>
-                <div class="carousel-indicators" id="carousel-indicators">
-                    <div class="carousel-indicator active" data-index="0"></div>
-                    <div class="carousel-indicator" data-index="1"></div>
-                    <div class="carousel-indicator" data-index="2"></div>
-                    <div class="carousel-indicator" data-index="3"></div>
-                    <div class="carousel-indicator" data-index="4"></div>
-                </div>
-            </div>
-        </div>
-
-        <div class="content">
+    <div class="container" id="main-content">
+        <div class="radio-content">
             <div class="player-section">
-                <div class="light-beam"></div>
-                <div class="neon-glow"></div>
-                <div class="player-title">
-                    <i class="fas fa-broadcast-tower"></i>
-                    <h2>TRANSMISIÓN EN VIVO</h2>
-                </div>
-
-                <!-- Indicador ON AIR -->
-                <div class="on-air-indicator" id="on-air-indicator">
-                    <div class="on-air-text" id="on-air-text">
-                        ON AIR
-                    </div>
-                </div>
-
+                <h2>TRANSMISIÓN EN VIVO</h2>
                 <div class="player-container">
-                    <!-- Contenedor del iframe con overlay -->
-                    <div class="iframe-container" id="iframe-container">
-                        <iframe src="https://radios.yanapak.org/dinamica" class="player-frame" frameborder="0"
-                            scrolling="no" allow="autoplay; encrypted-media" id="radio-iframe">
-                        </iframe>
+                    <!-- Indicador ON AIR - ARRIBA DEL TODO -->
+                    <div class="on-air-indicator">
+                        <div class="on-air-dot loading" id="on-air-dot"></div>
+                        <div class="on-air-text loading" id="on-air-text">ON AIR</div>
+                    </div>
 
-                        <div class="iframe-overlay">
-                            <div class="status-text">
-                                <div class="status-indicator"></div>
-                                TRANSMITIENDO EN VIVO
-                            </div>
-                            <div class="loading-text">Cargando reproductor...</div>
+                    <!-- Contenido del reproductor - MUCHO MÁS ABAJO -->
+                    <div class="player-content">
+                        <h3 class="player-title">RADIO DINÁMICA</h3>
+                        <p class="player-subtitle">Transmisión en vivo desde nuestros estudios</p>
+
+                        <div class="frequency-display">
+                            <div class="frequency">105.0 FM</div>
+
+                        </div>
+
+                        <div class="status-message" id="status-message">
+                            Iniciando transmisión...
                         </div>
                     </div>
 
+                    <!-- Visualizador de audio -->
                     <div class="visualizer" id="visualizer">
-                        <!-- Las barras del visualizador se generan con JavaScript -->
+                        <!-- Las barras se generan dinámicamente -->
+                    </div>
+
+                    <!-- Iframe oculto -->
+                    <div class="iframe-container">
+                        <iframe src="https://radios.yanapak.org/dinamica" allow="autoplay" id="radio-iframe"></iframe>
                     </div>
                 </div>
             </div>
 
-            <!-- NUEVA SECCIÓN DE MEZCLADORA CON VU METERS ESTILO VELOCÍMETRO MODERNO -->
-            <div class="mixer-section">
-                <div class="light-beam"></div>
-                <div class="neon-glow"></div>
-                <div class="mixer-title">
-                    <i class="fas fa-sliders-h"></i>
-                    <h2>MEZCLADORA DJ</h2>
-                </div>
-
-                <div class="vu-container">
-                    <div class="vu-meter">
-                        <div class="vu-label">VOLUMEN</div>
-                        <div class="vu-dial">
-                            <div class="red-zone"></div>
-                            <div class="vu-scale" id="volume-scale">
-                                <!-- Marcas de escala se generan con JS -->
-                            </div>
-                            <div class="vu-needle" id="volume-needle"></div>
-                        </div>
-                        <div class="vu-value" id="volume-value">-24 dB</div>
-                    </div>
-
-                    <div class="vu-meter">
-                        <div class="vu-label">BAJOS</div>
-                        <div class="vu-dial">
-                            <div class="red-zone"></div>
-                            <div class="vu-scale" id="bass-scale">
-                                <!-- Marcas de escala se generan con JS -->
-                            </div>
-                            <div class="vu-needle" id="bass-needle"></div>
-                        </div>
-                        <div class="vu-value" id="bass-value">-18 dB</div>
-                    </div>
-
-                    <div class="vu-meter">
-                        <div class="vu-label">MEDIOS</div>
-                        <div class="vu-dial">
-                            <div class="red-zone"></div>
-                            <div class="vu-scale" id="mid-scale">
-                                <!-- Marcas de escala se generan con JS -->
-                            </div>
-                            <div class="vu-needle" id="mid-needle"></div>
-                        </div>
-                        <div class="vu-value" id="mid-value">-22 dB</div>
-                    </div>
-
-                    <div class="vu-meter">
-                        <div class="vu-label">AGUDOS</div>
-                        <div class="vu-dial">
-                            <div class="red-zone"></div>
-                            <div class="vu-scale" id="treble-scale">
-                                <!-- Marcas de escala se generan con JS -->
-                            </div>
-                            <div class="vu-needle" id="treble-needle"></div>
-                        </div>
-                        <div class="vu-value" id="treble-value">-16 dB</div>
-                    </div>
-
-                    <div class="vu-meter vu-meter-stereo">
-                        <div class="vu-label">ESTÉREO</div>
-                        <div class="stereo-dials">
-                            <div class="stereo-channel">
-                                <div class="vu-dial">
-                                    <div class="red-zone"></div>
-                                    <div class="vu-scale" id="left-scale">
-                                        <!-- Marcas de escala se generan con JS -->
-                                    </div>
-                                    <div class="vu-needle" id="left-needle"></div>
+            <div class="vu-meters-section">
+                <h2>ANÁLISIS DE AUDIO</h2>
+                <div class="vu-meters-container">
+                    <div class="vu-meter-item">
+                        <div class="vu-container">
+                            <div class="vu-meter" id="vu-meter-sonido">
+                                <div class="vu-face"></div>
+                                <div class="vu-scale">
+                                    <div class="vu-ticks" id="vu-ticks-sonido"></div>
+                                    <div class="vu-numbers" id="vu-numbers-sonido"></div>
                                 </div>
-                                <div class="stereo-label">IZQUIERDO</div>
-                            </div>
-                            <div class="stereo-channel">
-                                <div class="vu-dial">
-                                    <div class="red-zone"></div>
-                                    <div class="vu-scale" id="right-scale">
-                                        <!-- Marcas de escala se generan con JS -->
-                                    </div>
-                                    <div class="vu-needle" id="right-needle"></div>
-                                </div>
-                                <div class="stereo-label">DERECHO</div>
+                                <div class="vu-needle" id="vu-needle-sonido"></div>
+                                <div class="vu-center"></div>
                             </div>
                         </div>
+                        <div class="vu-meter-label">Sonido</div>
+                    </div>
+
+                    <div class="vu-meter-item">
+                        <div class="vu-container">
+                            <div class="vu-meter" id="vu-meter-bajos">
+                                <div class="vu-face"></div>
+                                <div class="vu-scale">
+                                    <div class="vu-ticks" id="vu-ticks-bajos"></div>
+                                    <div class="vu-numbers" id="vu-numbers-bajos"></div>
+                                </div>
+                                <div class="vu-needle" id="vu-needle-bajos"></div>
+                                <div class="vu-center"></div>
+                            </div>
+                        </div>
+                        <div class="vu-meter-label">Bajos</div>
+                    </div>
+
+                    <div class="vu-meter-item">
+                        <div class="vu-container">
+                            <div class="vu-meter" id="vu-meter-medios">
+                                <div class="vu-face"></div>
+                                <div class="vu-scale">
+                                    <div class="vu-ticks" id="vu-ticks-medios"></div>
+                                    <div class="vu-numbers" id="vu-numbers-medios"></div>
+                                </div>
+                                <div class="vu-needle" id="vu-needle-medios"></div>
+                                <div class="vu-center"></div>
+                            </div>
+                        </div>
+                        <div class="vu-meter-label">Medios</div>
+                    </div>
+
+                    <div class="vu-meter-item">
+                        <div class="vu-container">
+                            <div class="vu-meter" id="vu-meter-agudos">
+                                <div class="vu-face"></div>
+                                <div class="vu-scale">
+                                    <div class="vu-ticks" id="vu-ticks-agudos"></div>
+                                    <div class="vu-numbers" id="vu-numbers-agudos"></div>
+                                </div>
+                                <div class="vu-needle" id="vu-needle-agudos"></div>
+                                <div class="vu-center"></div>
+                            </div>
+                        </div>
+                        <div class="vu-meter-label">Agudos</div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="footer">
-            <p>© 2023 Radio Dinámica FM - Todos los derechos reservados</p>
-            <div class="social-links">
-                <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
-                <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
-                <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
-                <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+        <!-- Carrusel más pequeño -->
+        <div class="carousel-section">
+            <div class="carousel">
+                <div class="carousel-slide active"
+                    style="background-image: url('https://images.unsplash.com/photo-1571330735066-03aaa9429d89?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80')">
+                    <div class="carousel-content">
+                        <h2 class="carousel-title">Los Éxitos del Momento</h2>
+                        <p class="carousel-subtitle">Escucha las canciones más populares en nuestra programación</p>
+                    </div>
+                </div>
+                <div class="carousel-slide"
+                    style="background-image: url('https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80')">
+                    <div class="carousel-content">
+                        <h2 class="carousel-title">Programas Especiales</h2>
+                        <p class="carousel-subtitle">Entrevistas y contenido exclusivo todos los días</p>
+                    </div>
+                </div>
+                <div class="carousel-slide"
+                    style="background-image: url('https://images.unsplash.com/photo-1514525253161-7a46d19cd819?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80')">
+                    <div class="carousel-content">
+                        <h2 class="carousel-title">En Vivo Desde Nuestros Estudios</h2>
+                        <p class="carousel-subtitle">La mejor calidad de sonido las 24 horas</p>
+                    </div>
+                </div>
+
+                <div class="carousel-indicators">
+                    <div class="indicator active" data-slide="0"></div>
+                    <div class="indicator" data-slide="1"></div>
+                    <div class="indicator" data-slide="2"></div>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- Efectos de partículas -->
-    <div class="particles" id="particles"></div>
+    <!-- Footer con redes sociales MEJORADO -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="social-links">
+                <a href="https://wa.me/1234567890" class="social-link whatsapp" target="_blank"
+                    title="Envíanos un mensaje por WhatsApp">
+                    <i class="fab fa-whatsapp"></i>
+                </a>
+                <a href="https://facebook.com/turadio" class="social-link facebook" target="_blank"
+                    title="Síguenos en Facebook">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+                <a href="https://instagram.com/turadio" class="social-link instagram" target="_blank"
+                    title="Síguenos en Instagram">
+                    <i class="fab fa-instagram"></i>
+                </a>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 Radio Dinámica 105 FM. Todos los derechos reservados.</p>
+                <p>Tu conexión con la mejor música</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Efectos de luces -->
+    <div class="light-effect">
+        <div class="light-beam" style="animation-delay: 0s;"></div>
+        <div class="light-beam" style="animation-delay: 2s;"></div>
+        <div class="light-beam" style="animation-delay: 4s;"></div>
+        <div class="light-beam" style="animation-delay: 6s;"></div>
+    </div>
 
     <script>
+        // Crear partículas para la pantalla de carga
+        function createParticles() {
+            const container = document.getElementById('particles-container');
+            const particleCount = 30;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+
+                const posX = Math.random() * 100;
+                const posY = Math.random() * 100;
+
+                particle.style.left = `${posX}%`;
+                particle.style.top = `${posY}%`;
+
+                const size = Math.random() * 4 + 2;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+
+                const colors = ['#ff0055', '#ffaa00', '#00ffaa', '#0088ff', '#5500ff'];
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                particle.style.background = color;
+                particle.style.boxShadow = `0 0 10px ${color}`;
+
+                particle.style.animationDelay = `${Math.random() * 6}s`;
+
+                container.appendChild(particle);
+            }
+        }
+
+        // Crear visualizador de audio
+        function createVisualizer() {
+            const visualizer = document.getElementById('visualizer');
+            const barCount = 25;
+
+            for (let i = 0; i < barCount; i++) {
+                const bar = document.createElement('div');
+                bar.className = 'bar';
+                bar.style.animationDelay = `${i * 0.05}s`;
+                visualizer.appendChild(bar);
+            }
+        }
+
+        // Control del indicador ON AIR
+        function initOnAirIndicator() {
+            const onAirDot = document.getElementById('on-air-dot');
+            const onAirText = document.getElementById('on-air-text');
+            const statusMessage = document.getElementById('status-message');
+
+            // Inicia en verde (cargando)
+            onAirDot.className = 'on-air-dot loading';
+            onAirText.className = 'on-air-text loading';
+            onAirText.textContent = 'ON AIR';
+            statusMessage.textContent = 'Iniciando transmisión...';
+
+            // Simular carga y cambio a rojo (en vivo)
+            setTimeout(() => {
+                onAirDot.className = 'on-air-dot live';
+                onAirText.className = 'on-air-text live';
+                onAirText.textContent = 'ON AIR';
+                statusMessage.textContent = '¡Transmisión en vivo! Disfruta de la mejor música';
+
+                console.log('Stream cargado - Cambiando a modo EN VIVO');
+            }, 4000);
+        }
+
+        // Carrusel automático
+        function initCarousel() {
+            const slides = document.querySelectorAll('.carousel-slide');
+            const indicators = document.querySelectorAll('.indicator');
+            let currentSlide = 0;
+
+            function showSlide(index) {
+                slides.forEach(slide => slide.classList.remove('active'));
+                indicators.forEach(indicator => indicator.classList.remove('active'));
+
+                slides[index].classList.add('active');
+                indicators[index].classList.add('active');
+
+                currentSlide = index;
+            }
+
+            setInterval(() => {
+                let nextSlide = (currentSlide + 1) % slides.length;
+                showSlide(nextSlide);
+            }, 3000);
+
+            indicators.forEach((indicator, index) => {
+                indicator.addEventListener('click', () => {
+                    showSlide(index);
+                });
+            });
+        }
+
+        // VUMETROS CORREGIDOS - NO BAJAN DE 2
+        function initVUMeters() {
+            const vuTypes = ['sonido', 'bajos', 'medios', 'agudos'];
+
+            // Crear escalas para cada vumetro
+            vuTypes.forEach(type => {
+                const vuTicks = document.getElementById(`vu-ticks-${type}`);
+                const vuNumbers = document.getElementById(`vu-numbers-${type}`);
+
+                for (let i = 0; i <= 10; i++) {
+                    // Marcas principales
+                    const majorTick = document.createElement('div');
+                    majorTick.className = 'vu-tick major';
+                    majorTick.style.transform = `rotate(${i * 18 - 90}deg)`;
+                    vuTicks.appendChild(majorTick);
+
+                    // Números (solo pares)
+                    if (i % 2 === 0) {
+                        const number = document.createElement('div');
+                        number.className = 'vu-number';
+                        number.textContent = i;
+
+                        const angle = i * 18 - 90;
+                        const radius = 65;
+                        const x = 50 + radius * Math.cos(angle * Math.PI / 180);
+                        const y = 50 + radius * Math.sin(angle * Math.PI / 180);
+
+                        number.style.left = `${x}%`;
+                        number.style.top = `${y}%`;
+                        number.style.transform = `translate(-50%, -50%)`;
+
+                        vuNumbers.appendChild(number);
+                    }
+
+                    // Marcas menores
+                    if (i < 10) {
+                        for (let j = 1; j < 5; j++) {
+                            const minorTick = document.createElement('div');
+                            minorTick.className = 'vu-tick minor';
+                            minorTick.style.transform = `rotate(${(i * 18 + j * 3.6) - 90}deg)`;
+                            vuTicks.appendChild(minorTick);
+                        }
+                    }
+                }
+            });
+
+            // SIMULACIÓN DE MOVIMIENTO - GARANTIZADO QUE NO BAJA DE 2
+            let currentValues = {
+                sonido: 3.5,
+                bajos: 3.2,
+                medios: 3.0,
+                agudos: 3.8
+            };
+
+            let targetValues = {
+                sonido: 3.5,
+                bajos: 3.2,
+                medios: 3.0,
+                agudos: 3.8
+            };
+
+            function updateVUMeters() {
+                // Cambio aleatorio de valores (SOLO ENTRE 2 Y 8)
+                if (Math.random() < 0.08) {
+                    targetValues.sonido = Math.random() * 5 + 3;   // 3-8
+                    targetValues.bajos = Math.random() * 4 + 2.5;  // 2.5-6.5
+                    targetValues.medios = Math.random() * 5 + 2;   // 2-7
+                    targetValues.agudos = Math.random() * 4 + 3.5; // 3.5-7.5
+                }
+
+                // Suavizar movimiento y GARANTIZAR MÍNIMO DE 2
+                vuTypes.forEach(type => {
+                    currentValues[type] += (targetValues[type] - currentValues[type]) * 0.1;
+
+                    // ¡GARANTIZADO! NUNCA BAJA DE 2
+                    if (currentValues[type] < 2) {
+                        currentValues[type] = 2;
+                        targetValues[type] = 2.5; // Forzar subida
+                    }
+
+                    // Actualizar aguja
+                    const angle = (currentValues[type] * 18) - 90;
+                    const vuNeedle = document.getElementById(`vu-needle-${type}`);
+                    vuNeedle.style.transform = `translateX(-50%) rotate(${angle}deg)`;
+                });
+
+                requestAnimationFrame(updateVUMeters);
+            }
+
+            updateVUMeters();
+        }
+
         // Simulación de pantalla de carga
         document.addEventListener('DOMContentLoaded', function () {
             const loadingScreen = document.getElementById('loading-screen');
             const mainContent = document.getElementById('main-content');
             const loadingProgress = document.getElementById('loading-progress');
-            const iframeOverlay = document.querySelector('.iframe-overlay');
-            const iframeContainer = document.getElementById('iframe-container');
-            const onAirIndicator = document.getElementById('on-air-indicator');
-            const onAirText = document.getElementById('on-air-text');
-            const radioIframe = document.getElementById('radio-iframe');
+
+            createParticles();
+            createVisualizer();
 
             let progress = 0;
             const interval = setInterval(() => {
-                progress += Math.random() * 10;
-                if (progress >= 100) {
-                    progress = 100;
-                    clearInterval(interval);
+                progress += 2;
+                loadingProgress.style.width = `${progress}%`;
 
-                    // Ocultar pantalla de carga y mostrar contenido principal
+                if (progress >= 100) {
+                    clearInterval(interval);
                     setTimeout(() => {
                         loadingScreen.style.opacity = '0';
                         setTimeout(() => {
                             loadingScreen.style.display = 'none';
-                            mainContent.style.display = 'block';
-                            setTimeout(() => {
-                                mainContent.style.opacity = '1';
-
-                                // Ocultar el overlay después de que el iframe cargue
-                                setTimeout(() => {
-                                    iframeOverlay.style.opacity = '0';
-                                    setTimeout(() => {
-                                        iframeOverlay.style.display = 'none';
-                                    }, 1000);
-                                }, 3000);
-                            }, 50);
-                        }, 800);
+                            mainContent.style.opacity = '1';
+                            initOnAirIndicator(); // Iniciar el indicador ON AIR cuando carga la página
+                        }, 1000);
                     }, 500);
                 }
-                loadingProgress.style.width = `${progress}%`;
-            }, 300);
+            }, 50);
 
-            // Crear partículas de fondo
-            createParticles();
-
-            // Inicializar visualizador
-            initVisualizer();
-
-            // Inicializar VU meters de aguja
-            initVUMeters();
-
-            // Inicializar carrusel
             initCarousel();
-
-            // Controlar la visibilidad del reproductor
-            onAirIndicator.addEventListener('click', function () {
-                if (iframeContainer.style.display === 'none' || iframeContainer.style.display === '') {
-                    iframeContainer.style.display = 'block';
-                    // Simular que la radio está reproduciendo
-                    onAirText.classList.remove('paused');
-                } else {
-                    iframeContainer.style.display = 'none';
-                    // Simular que la radio está pausada
-                    onAirText.classList.add('paused');
-                }
-            });
-
-            // Simular detección de pausa/reproducción
-            // En un caso real, esto se conectaría con la API del reproductor
-            setInterval(() => {
-                // Simulación aleatoria de cambio de estado
-                if (Math.random() > 0.9) {
-                    if (onAirText.classList.contains('paused')) {
-                        onAirText.classList.remove('paused');
-                    } else {
-                        onAirText.classList.add('paused');
-                    }
-                }
-            }, 5000);
+            initVUMeters();
         });
-
-        // Inicializar carrusel de imágenes mejorado
-        function initCarousel() {
-            const carouselSlides = document.querySelector('.carousel-slides');
-            const slides = document.querySelectorAll('.carousel-slide');
-            const prevBtn = document.getElementById('prev-btn');
-            const nextBtn = document.getElementById('next-btn');
-            const indicators = document.querySelectorAll('.carousel-indicator');
-            const progressBars = document.querySelectorAll('.carousel-progress-bar');
-
-            let currentSlide = 0;
-            const totalSlides = slides.length;
-            let autoSlideInterval;
-            let isTransitioning = false;
-
-            // Función para cambiar de slide
-            function goToSlide(slideIndex) {
-                if (isTransitioning) return;
-
-                isTransitioning = true;
-
-                // Quitar clase active de slide actual
-                slides[currentSlide].classList.remove('active');
-                indicators[currentSlide].classList.remove('active');
-
-                // Actualizar slide actual
-                currentSlide = slideIndex;
-
-                // Añadir clase active al nuevo slide
-                slides[currentSlide].classList.add('active');
-                indicators[currentSlide].classList.add('active');
-
-                // Reiniciar la barra de progreso
-                resetProgressBar();
-
-                // Permitir transición nuevamente después de un tiempo
-                setTimeout(() => {
-                    isTransitioning = false;
-                }, 1200);
-            }
-
-            // Función para siguiente slide
-            function nextSlide() {
-                const nextIndex = (currentSlide + 1) % totalSlides;
-                goToSlide(nextIndex);
-            }
-
-            // Función para slide anterior
-            function prevSlide() {
-                const prevIndex = (currentSlide - 1 + totalSlides) % totalSlides;
-                goToSlide(prevIndex);
-            }
-
-            // Reiniciar la barra de progreso
-            function resetProgressBar() {
-                progressBars.forEach(bar => {
-                    bar.style.transition = 'none';
-                    bar.style.width = '0%';
-
-                    // Forzar reflow
-                    void bar.offsetWidth;
-
-                    // Iniciar animación
-                    bar.style.transition = 'width 3s linear';
-                    bar.style.width = '100%';
-                });
-            }
-
-            // Event listeners para botones
-            nextBtn.addEventListener('click', () => {
-                pauseAutoSlide();
-                nextSlide();
-                resumeAutoSlide();
-            });
-
-            prevBtn.addEventListener('click', () => {
-                pauseAutoSlide();
-                prevSlide();
-                resumeAutoSlide();
-            });
-
-            // Event listeners para indicadores
-            indicators.forEach(indicator => {
-                indicator.addEventListener('click', () => {
-                    const slideIndex = parseInt(indicator.getAttribute('data-index'));
-                    if (slideIndex !== currentSlide) {
-                        pauseAutoSlide();
-                        goToSlide(slideIndex);
-                        resumeAutoSlide();
-                    }
-                });
-            });
-
-            // Iniciar transición automática
-            function startAutoSlide() {
-                autoSlideInterval = setInterval(nextSlide, 3000);
-            }
-
-            // Pausar transición automática
-            function pauseAutoSlide() {
-                clearInterval(autoSlideInterval);
-            }
-
-            // Reanudar transición automática
-            function resumeAutoSlide() {
-                startAutoSlide();
-            }
-
-            // Pausar al pasar el ratón sobre el carrusel
-            const carouselContainer = document.querySelector('.carousel-container');
-            carouselContainer.addEventListener('mouseenter', pauseAutoSlide);
-            carouselContainer.addEventListener('mouseleave', resumeAutoSlide);
-
-            // Iniciar transición automática y barra de progreso
-            startAutoSlide();
-            resetProgressBar();
-        }
-
-        // Crear partículas flotantes
-        function createParticles() {
-            const particlesContainer = document.getElementById('particles');
-            const particleCount = 60;
-
-            for (let i = 0; i < particleCount; i++) {
-                const particle = document.createElement('div');
-                particle.classList.add('particle');
-
-                // Tamaño aleatorio
-                const size = Math.random() * 15 + 5;
-                particle.style.width = `${size}px`;
-                particle.style.height = `${size}px`;
-
-                // Posición inicial aleatoria
-                particle.style.left = `${Math.random() * 100}%`;
-
-                // Retraso de animación aleatorio
-                particle.style.animationDelay = `${Math.random() * 15}s`;
-
-                // Color aleatorio (azul, rosa o púrpura)
-                const colors = [
-                    'rgba(0, 243, 255, 0.3)',
-                    'rgba(233, 69, 96, 0.3)',
-                    'rgba(185, 103, 255, 0.3)',
-                    'rgba(255, 46, 147, 0.3)'
-                ];
-                particle.style.background = colors[Math.floor(Math.random() * colors.length)];
-
-                particlesContainer.appendChild(particle);
-            }
-        }
-
-        // Inicializar visualizador de audio
-        function initVisualizer() {
-            const visualizer = document.getElementById('visualizer');
-            const barCount = 50;
-
-            // Crear barras del visualizador
-            for (let i = 0; i < barCount; i++) {
-                const bar = document.createElement('div');
-                bar.classList.add('bar');
-
-                // Altura inicial aleatoria
-                const height = Math.random() * 60 + 20;
-                bar.style.height = `${height}%`;
-
-                // Retraso de animación para crear efecto de onda
-                bar.style.animationDelay = `${i * 0.03}s`;
-
-                visualizer.appendChild(bar);
-            }
-
-            // Animar las barras
-            animateVisualizer();
-        }
-
-        // Animar el visualizador
-        function animateVisualizer() {
-            const bars = document.querySelectorAll('.bar');
-
-            setInterval(() => {
-                bars.forEach(bar => {
-                    // Cambiar altura aleatoriamente para simular audio
-                    const newHeight = Math.random() * 80 + 10;
-                    bar.style.height = `${newHeight}%`;
-
-                    // Cambiar color gradualmente
-                    const hue = Math.random() * 60 + 180; // Entre 180 y 240 (azules)
-                    bar.style.background = `linear-gradient(to top, hsl(${hue}, 100%, 60%), hsl(${hue + 40}, 100%, 60%))`;
-                });
-            }, 100);
-        }
-
-        // Inicializar VU Meters de Aguja estilo velocímetro moderno
-        function initVUMeters() {
-            // Crear escalas para cada VU meter
-            createVUScale('volume-scale');
-            createVUScale('bass-scale');
-            createVUScale('mid-scale');
-            createVUScale('treble-scale');
-            createVUScale('left-scale');
-            createVUScale('right-scale');
-
-            // Animar los VU meters
-            animateVUMeters();
-        }
-
-        // Crear escala para VU meter estilo velocímetro moderno
-        function createVUScale(containerId) {
-            const container = document.getElementById(containerId);
-            const marks = [-40, -30, -20, -10, -5, 0, 3];
-            const totalAngle = 240; // Ángulo total de la escala (240 grados como un velocímetro)
-            const startAngle = -120; // Ángulo inicial (-120 grados)
-
-            marks.forEach((mark, index) => {
-                // Crear marca de escala
-                const scaleMark = document.createElement('div');
-                scaleMark.classList.add('vu-scale-mark');
-
-                // Calcular posición angular
-                const angle = startAngle + (index / (marks.length - 1)) * totalAngle;
-                scaleMark.style.transform = `rotate(${angle}deg)`;
-
-                // Ajustar altura de la marca según la posición
-                if (mark === 0 || mark === -20 || mark === -40) {
-                    scaleMark.style.height = '16px';
-                    scaleMark.style.width = '3px';
-                    scaleMark.style.background = '#fff';
-                } else if (mark === -10 || mark === -30) {
-                    scaleMark.style.height = '12px';
-                } else {
-                    scaleMark.style.height = '8px';
-                }
-
-                container.appendChild(scaleMark);
-
-                // Crear número de escala (solo para marcas principales)
-                if (mark % 10 === 0 || mark === 3) {
-                    const scaleNumber = document.createElement('div');
-                    scaleNumber.classList.add('vu-scale-number');
-                    scaleNumber.textContent = mark;
-
-                    // Posicionar el número con orientación radial como en autos modernos
-                    const numberAngle = angle * Math.PI / 180;
-                    const radius = 58; // Radio desde el centro
-                    const x = 50 + Math.sin(numberAngle) * radius;
-                    const y = 50 - Math.cos(numberAngle) * radius;
-
-                    scaleNumber.style.left = `${x}%`;
-                    scaleNumber.style.top = `${y}%`;
-
-                    // Rotar los números para que sigan la curvatura del dial
-                    scaleNumber.style.transform = `translateX(-50%) rotate(${angle}deg)`;
-
-                    // Ajustar tamaño de fuente para números importantes
-                    if (mark === 0 || mark === -40) {
-                        scaleNumber.style.fontSize = '0.9rem';
-                        scaleNumber.style.fontWeight = 'bold';
-                    }
-
-                    container.appendChild(scaleNumber);
-                }
-            });
-        }
-
-        // Animar VU Meters de Aguja con movimiento más visible y dinámico
-        function animateVUMeters() {
-            const vuMeters = [
-                { needleId: 'volume-needle', valueId: 'volume-value', baseValue: -24, range: 18 },
-                { needleId: 'bass-needle', valueId: 'bass-value', baseValue: -18, range: 15 },
-                { needleId: 'mid-needle', valueId: 'mid-value', baseValue: -22, range: 12 },
-                { needleId: 'treble-needle', valueId: 'treble-value', baseValue: -16, range: 16 },
-                { needleId: 'left-needle', valueId: null, baseValue: -20, range: 18 },
-                { needleId: 'right-needle', valueId: null, baseValue: -20, range: 18 }
-            ];
-
-            // Valores actuales para cada medidor (para transiciones suaves)
-            const currentValues = {};
-            vuMeters.forEach(meter => {
-                currentValues[meter.needleId] = meter.baseValue;
-            });
-
-            // Animar VU meters principales
-            setInterval(() => {
-                vuMeters.forEach(meter => {
-                    const needle = document.getElementById(meter.needleId);
-                    const valueElement = meter.valueId ? document.getElementById(meter.valueId) : null;
-
-                    // Generar valores objetivo aleatorios para simular audio con más variación
-                    const targetValue = meter.baseValue + (Math.random() * meter.range - meter.range / 2);
-                    const dbValue = Math.max(-40, Math.min(3, targetValue));
-
-                    // Suavizar el movimiento hacia el valor objetivo
-                    const currentValue = currentValues[meter.needleId];
-                    const smoothedValue = currentValue + (dbValue - currentValue) * 0.4; // Más rápido y visible
-                    currentValues[meter.needleId] = smoothedValue;
-
-                    // Calcular ángulo de la aguja (-40dB = -120°, +3dB = +120°)
-                    const angle = -120 + ((smoothedValue + 40) / 43) * 240;
-
-                    // Actualizar aguja
-                    if (needle) {
-                        needle.style.transform = `translateX(-50%) rotate(${angle}deg)`;
-                    }
-
-                    // Actualizar valor numérico (solo para los primeros 4 metros)
-                    if (valueElement) {
-                        valueElement.textContent = `${Math.round(smoothedValue)} dB`;
-
-                        // Cambiar color del texto según el nivel
-                        if (smoothedValue > 0) {
-                            valueElement.className = 'vu-value critical';
-                        } else if (smoothedValue > -10) {
-                            valueElement.className = 'vu-value high';
-                        } else {
-                            valueElement.className = 'vu-value';
-                        }
-                    }
-                });
-            }, 120); // Actualización más rápida para movimiento más visible
-        }
     </script>
 </body>
 
