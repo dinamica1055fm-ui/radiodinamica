@@ -48,6 +48,10 @@
         .loading-content {
             text-align: center;
             position: relative;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         .loading-logo {
@@ -88,8 +92,12 @@
         }
 
         .loading-bar-container {
-            width: 300px;
-            height: 10px;
+            width: 80%;
+            /* Más ancho */
+            max-width: 500px;
+            /* Límite máximo */
+            height: 12px;
+            /* Más grueso */
             background: rgba(20, 20, 40, 0.8);
             border-radius: 10px;
             overflow: hidden;
@@ -836,7 +844,7 @@
             }
 
             .loading-bar-container {
-                width: 250px;
+                width: 90%;
             }
 
             .social-links {
@@ -1259,32 +1267,67 @@
             updateVUMeters();
         }
 
-        // Simulación de pantalla de carga OPTIMIZADA
+        // Cargar el reproductor inmediatamente - MÁS RÁPIDO
+        function preloadRadio() {
+            const iframe = document.getElementById('radio-iframe');
+            console.log('Iniciando precarga INSTANTÁNEA del reproductor de radio...');
+
+            // Crear un elemento link para precargar el recurso
+            const preloadLink = document.createElement('link');
+            preloadLink.rel = 'preload';
+            preloadLink.as = 'document';
+            preloadLink.href = 'https://radios.yanapak.org/dinamica';
+            document.head.appendChild(preloadLink);
+
+            // Forzar la carga del iframe inmediatamente
+            iframe.src = 'https://radios.yanapak.org/dinamica';
+
+            iframe.onload = function () {
+                console.log('Reproductor de radio cargado INSTANTÁNEAMENTE');
+            };
+
+            // En caso de error
+            iframe.onerror = function () {
+                console.log('Error al cargar el reproductor de radio');
+            };
+        }
+
+        // Simulación de pantalla de carga de 6 segundos EXACTOS
         document.addEventListener('DOMContentLoaded', function () {
             const loadingScreen = document.getElementById('loading-screen');
             const mainContent = document.getElementById('main-content');
             const loadingProgress = document.getElementById('loading-progress');
 
+            // Iniciar precarga del reproductor inmediatamente - MÁS RÁPIDO
+            preloadRadio();
+
             createParticles();
             createVisualizer();
 
-            let progress = 0;
-            const interval = setInterval(() => {
-                progress += 3; // Incremento más rápido
+            const startTime = Date.now();
+            const totalDuration = 6000; // 6 segundos exactos
+
+            function updateProgress() {
+                const elapsed = Date.now() - startTime;
+                const progress = Math.min((elapsed / totalDuration) * 100, 100);
+
                 loadingProgress.style.width = `${progress}%`;
 
-                if (progress >= 100) {
-                    clearInterval(interval);
+                if (progress < 100) {
+                    requestAnimationFrame(updateProgress);
+                } else {
+                    // Ocultar pantalla de carga después de 6 segundos exactos
+                    loadingScreen.style.opacity = '0';
                     setTimeout(() => {
-                        loadingScreen.style.opacity = '0';
-                        setTimeout(() => {
-                            loadingScreen.style.display = 'none';
-                            mainContent.style.opacity = '1';
-                            initOnAirIndicator(); // Iniciar el indicador ON AIR cuando carga la página
-                        }, 300); // Tiempo más corto
-                    }, 200); // Tiempo más corto
+                        loadingScreen.style.display = 'none';
+                        mainContent.style.opacity = '1';
+                        initOnAirIndicator(); // Iniciar el indicador ON AIR cuando carga la página
+                    }, 300);
                 }
-            }, 30); // Intervalo más corto
+            }
+
+            // Iniciar la animación de progreso
+            updateProgress();
 
             initCarousel();
             initVUMeters();
