@@ -17,7 +17,7 @@
         @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&display=swap');
 
         body {
-            background: linear-gradient(rgba(5, 5, 15, 0.95), rgba(2, 2, 10, 0.95)),
+            background: linear-gradient(rgba(5, 5, 15, 0.7), rgba(2, 2, 10, 0.6)),
                 url('https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
             background-size: cover;
             background-position: center;
@@ -29,7 +29,7 @@
             overflow-x: hidden;
         }
 
-        /* Pantalla de carga mejorada */
+        /* Pantalla de carga optimizada */
         #loading-screen {
             position: fixed;
             top: 0;
@@ -42,7 +42,7 @@
             justify-content: center;
             align-items: center;
             z-index: 9999;
-            transition: opacity 1s ease;
+            transition: opacity 0.5s ease;
         }
 
         .loading-content {
@@ -51,9 +51,9 @@
         }
 
         .loading-logo {
-            width: 200px;
-            height: 200px;
-            margin: 0 auto 30px;
+            width: 150px;
+            height: 150px;
+            margin: 0 auto 20px;
             position: relative;
             display: flex;
             justify-content: center;
@@ -70,26 +70,26 @@
         }
 
         .loading-title {
-            font-size: 2.5rem;
+            font-size: 2rem;
             font-weight: 700;
             margin-bottom: 10px;
             background: linear-gradient(45deg, #ff0055, #ffaa00, #00ffaa);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             text-shadow: 0 0 15px rgba(0, 200, 255, 0.4);
-            letter-spacing: 3px;
+            letter-spacing: 2px;
         }
 
         .loading-subtitle {
-            font-size: 1.2rem;
+            font-size: 1rem;
             color: #a0a0ff;
-            margin-bottom: 40px;
+            margin-bottom: 30px;
             letter-spacing: 1px;
         }
 
         .loading-bar-container {
-            width: 400px;
-            height: 12px;
+            width: 300px;
+            height: 10px;
             background: rgba(20, 20, 40, 0.8);
             border-radius: 10px;
             overflow: hidden;
@@ -103,7 +103,7 @@
             width: 0%;
             background: linear-gradient(90deg, #ff0055, #ff4400, #ffaa00, #00ffaa, #0088ff);
             border-radius: 10px;
-            transition: width 0.3s ease;
+            transition: width 0.2s ease;
             box-shadow: 0 0 15px rgba(0, 200, 255, 0.7);
             position: relative;
             overflow: hidden;
@@ -117,7 +117,7 @@
             width: 100%;
             height: 100%;
             background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
-            animation: shimmer 1.5s infinite;
+            animation: shimmer 1s infinite;
         }
 
         .loading-particles {
@@ -131,22 +131,12 @@
 
         .particle {
             position: absolute;
-            width: 4px;
-            height: 4px;
+            width: 3px;
+            height: 3px;
             background: #00ffff;
             border-radius: 50%;
-            box-shadow: 0 0 10px #00ffff;
-            animation: float 6s infinite ease-in-out;
-        }
-
-        @keyframes rotate {
-            0% {
-                transform: rotate(0deg);
-            }
-
-            100% {
-                transform: rotate(360deg);
-            }
+            box-shadow: 0 0 8px #00ffff;
+            animation: float 4s infinite ease-in-out;
         }
 
         @keyframes shimmer {
@@ -168,23 +158,23 @@
             }
 
             50% {
-                transform: translateY(-20px) translateX(10px);
+                transform: translateY(-15px) translateX(8px);
                 opacity: 1;
             }
 
             80% {
-                transform: translateY(10px) translateX(-10px);
+                transform: translateY(8px) translateX(-8px);
                 opacity: 0;
             }
         }
 
-        /* Header con logo - TRANSPARENTE */
+        /* Header con logo - COMPLETAMENTE TRANSPARENTE */
         .header-section {
             width: 100%;
-            padding: 30px 0;
+            padding: 20px 0;
             text-align: center;
             background: transparent;
-            backdrop-filter: blur(5px);
+            backdrop-filter: none;
             border-bottom: 1px solid rgba(100, 100, 255, 0.2);
         }
 
@@ -194,18 +184,18 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 20px;
+            gap: 15px;
         }
 
         .header-logo {
-            width: 150px;
-            height: 150px;
+            width: 120px;
+            height: 120px;
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
-            box-shadow: 0 0 30px rgba(0, 100, 255, 0.7);
-            border: 3px solid rgba(100, 100, 255, 0.5);
+            box-shadow: 0 0 25px rgba(0, 100, 255, 0.7);
+            border: 2px solid rgba(100, 100, 255, 0.5);
             overflow: hidden;
         }
 
@@ -216,122 +206,120 @@
         }
 
         .header-title {
-            font-size: 3rem;
+            font-size: 2.5rem;
             font-weight: 800;
             background: linear-gradient(45deg, #ff0055, #ffaa00, #00ffaa);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             text-shadow: 0 0 20px rgba(0, 200, 255, 0.5);
-            letter-spacing: 3px;
-            margin-bottom: 10px;
+            letter-spacing: 2px;
+            margin-bottom: 5px;
         }
 
         .header-subtitle {
-            font-size: 1.3rem;
+            font-size: 1.1rem;
             color: #a0a0ff;
-            letter-spacing: 2px;
+            letter-spacing: 1px;
         }
 
-        /* Reproductor personalizado - CON POSICIÓN CORREGIDA */
+        /* Reproductor personalizado - SIN FONDO */
         .player-section {
             flex: 1;
             min-width: 300px;
-            background: rgba(10, 10, 20, 0.8);
-            border-radius: 20px;
-            padding: 25px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
-            border: 1px solid rgba(100, 100, 255, 0.3);
-            backdrop-filter: blur(10px);
+            background: transparent;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: none;
+            border: 1px solid rgba(100, 100, 255, 0.2);
+            backdrop-filter: none;
             position: relative;
             overflow: hidden;
         }
 
         .player-section h2 {
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             color: #00ffaa;
-            font-size: 1.5rem;
-            letter-spacing: 2px;
+            font-size: 1.3rem;
+            letter-spacing: 1px;
             text-transform: uppercase;
         }
 
         .player-container {
             position: relative;
             width: 100%;
-            height: 400px;
-            border-radius: 15px;
+            height: 350px;
+            border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+            box-shadow: none;
             border: 1px solid rgba(100, 100, 255, 0.2);
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            background: linear-gradient(135deg, #0a0a1a 0%, #151530 100%);
+            background: transparent;
         }
 
         .on-air-indicator {
             position: absolute;
-            top: 20px;
-            /* ARRIBA DEL TODO */
-            right: 25px;
+            top: 15px;
+            right: 20px;
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
             z-index: 10;
         }
 
         .on-air-dot {
-            width: 16px;
-            height: 16px;
+            width: 14px;
+            height: 14px;
             border-radius: 50%;
-            animation: pulse 2s infinite;
+            animation: pulse 1.5s infinite;
         }
 
         .on-air-dot.loading {
-            background: #00ff00;
-            box-shadow: 0 0 20px #00ff00, 0 0 30px #00ff00;
+            background: #ff0000;
+            box-shadow: 0 0 15px #ff0000, 0 0 25px #ff0000;
         }
 
         .on-air-dot.live {
-            background: #ff0000;
-            box-shadow: 0 0 20px #ff0000, 0 0 30px #ff0000;
+            background: #00ff00;
+            box-shadow: 0 0 15px #00ff00, 0 0 25px #00ff00;
         }
 
         .on-air-text {
-            font-size: 1.3rem;
+            font-size: 1.1rem;
             font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 2px;
-            padding: 8px 18px;
-            border-radius: 25px;
-            background: rgba(0, 0, 0, 0.6);
+            letter-spacing: 1px;
+            padding: 6px 14px;
+            border-radius: 20px;
+            background: rgba(0, 0, 0, 0.4);
         }
 
         .on-air-text.loading {
-            color: #00ff00;
-            text-shadow: 0 0 15px #00ff00;
-            border: 2px solid #00ff00;
+            color: #ff0000;
+            text-shadow: 0 0 12px #ff0000;
+            border: 2px solid #ff0000;
         }
 
         .on-air-text.live {
-            color: #ff0000;
-            text-shadow: 0 0 15px #ff0000;
-            border: 2px solid #ff0000;
+            color: #00ff00;
+            text-shadow: 0 0 12px #00ff00;
+            border: 2px solid #00ff00;
         }
 
         .player-content {
             text-align: center;
             z-index: 5;
-            padding: 20px;
-            margin-top: 120px;
-            /* MUCHO MÁS ABAJO - SEPARADO DEL ON AIR */
+            padding: 15px;
+            margin-top: 100px;
         }
 
         .player-title {
-            font-size: 2.5rem;
+            font-size: 2rem;
             font-weight: 700;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
             background: linear-gradient(45deg, #ff0055, #ffaa00, #00ffaa);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -339,40 +327,40 @@
         }
 
         .player-subtitle {
-            font-size: 1.2rem;
+            font-size: 1rem;
             color: #a0a0ff;
-            margin-bottom: 40px;
-            max-width: 400px;
+            margin-bottom: 30px;
+            max-width: 350px;
         }
 
         .frequency-display {
-            margin-top: 35px;
+            margin-top: 25px;
             text-align: center;
         }
 
         .frequency {
-            font-size: 3rem;
+            font-size: 2.5rem;
             font-weight: 700;
             background: linear-gradient(45deg, #ff0055, #ffaa00);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 20px rgba(255, 170, 0, 0.7);
-            letter-spacing: 3px;
-        }
-
-        .frequency-label {
-            font-size: 1.1rem;
-            color: #a0a0ff;
-            margin-top: 15px;
+            text-shadow: 0 0 15px rgba(255, 170, 0, 0.7);
             letter-spacing: 2px;
         }
 
+        .frequency-label {
+            font-size: 1rem;
+            color: #a0a0ff;
+            margin-top: 10px;
+            letter-spacing: 1px;
+        }
+
         .status-message {
-            margin-top: 40px;
-            font-size: 1.1rem;
+            margin-top: 30px;
+            font-size: 1rem;
             color: #a0a0ff;
             text-align: center;
-            max-width: 400px;
+            max-width: 350px;
         }
 
         .visualizer {
@@ -380,27 +368,27 @@
             bottom: 0;
             left: 0;
             width: 100%;
-            height: 80px;
+            height: 60px;
             display: flex;
             align-items: flex-end;
             justify-content: center;
-            gap: 3px;
-            padding: 0 20px 20px;
+            gap: 2px;
+            padding: 0 15px 15px;
         }
 
         .bar {
-            width: 6px;
+            width: 5px;
             background: linear-gradient(to top, #ff0055, #ffaa00, #00ffaa);
-            border-radius: 3px 3px 0 0;
-            animation: visualizer 1.5s ease-in-out infinite alternate;
+            border-radius: 2px 2px 0 0;
+            animation: visualizer 1.2s ease-in-out infinite alternate;
         }
 
         .bar:nth-child(odd) {
-            animation-delay: 0.2s;
+            animation-delay: 0.1s;
         }
 
         .bar:nth-child(even) {
-            animation-delay: 0.4s;
+            animation-delay: 0.3s;
         }
 
         .iframe-container {
@@ -447,16 +435,16 @@
             }
         }
 
-        /* Resto del CSS se mantiene igual... */
+        /* Carrusel con fondo más transparente */
         .carousel-section {
             width: 100%;
-            max-width: 1000px;
-            margin: 30px auto;
-            height: 300px;
+            max-width: 900px;
+            margin: 20px auto;
+            height: 250px;
             position: relative;
             overflow: hidden;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
         }
 
         .carousel {
@@ -472,7 +460,7 @@
             width: 100%;
             height: 100%;
             opacity: 0;
-            transition: opacity 1.5s ease-in-out;
+            transition: opacity 1s ease-in-out;
             background-size: cover;
             background-position: center;
             display: flex;
@@ -491,70 +479,70 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(135deg, rgba(0, 0, 20, 0.7) 0%, rgba(30, 0, 60, 0.5) 100%);
+            background: linear-gradient(135deg, rgba(0, 0, 20, 0.3) 0%, rgba(30, 0, 60, 0.2) 100%);
         }
 
         .carousel-content {
             position: relative;
             z-index: 2;
             text-align: center;
-            max-width: 800px;
-            padding: 0 20px;
+            max-width: 700px;
+            padding: 0 15px;
         }
 
         .carousel-title {
-            font-size: 2.5rem;
+            font-size: 2rem;
             font-weight: 700;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
             background: linear-gradient(45deg, #ff0055, #ffaa00, #00ffaa);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 15px rgba(0, 200, 255, 0.5);
-            letter-spacing: 2px;
+            text-shadow: 0 0 12px rgba(0, 200, 255, 0.5);
+            letter-spacing: 1px;
         }
 
         .carousel-subtitle {
-            font-size: 1.2rem;
+            font-size: 1rem;
             color: #a0a0ff;
             letter-spacing: 1px;
         }
 
         .carousel-indicators {
             position: absolute;
-            bottom: 20px;
+            bottom: 15px;
             left: 50%;
             transform: translateX(-50%);
             display: flex;
-            gap: 15px;
+            gap: 12px;
             z-index: 3;
         }
 
         .indicator {
-            width: 12px;
-            height: 12px;
+            width: 10px;
+            height: 10px;
             border-radius: 50%;
             background: rgba(255, 255, 255, 0.3);
             cursor: pointer;
-            transition: all 0.3s ease;
-            border: 2px solid transparent;
+            transition: all 0.2s ease;
+            border: 1px solid transparent;
         }
 
         .indicator.active {
             background: #00ffaa;
-            box-shadow: 0 0 10px #00ffaa;
+            box-shadow: 0 0 8px #00ffaa;
             transform: scale(1.2);
         }
 
         /* Contenido principal */
         .container {
-            max-width: 1200px;
+            max-width: 1100px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 15px;
             display: flex;
             flex-direction: column;
             align-items: center;
             opacity: 0;
-            transition: opacity 1s ease;
+            transition: opacity 0.5s ease;
             flex: 1;
         }
 
@@ -562,59 +550,59 @@
         .radio-content {
             display: flex;
             width: 100%;
-            gap: 40px;
+            gap: 30px;
             flex-wrap: wrap;
             justify-content: center;
         }
 
-        /* Vumetros estilo automotriz - MEJOR SEPARADOS */
+        /* Vumetros estilo automotriz - SIN FONDO */
         .vu-meters-section {
             flex: 1;
-            min-width: 300px;
-            background: rgba(10, 10, 20, 0.8);
-            border-radius: 20px;
-            padding: 25px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
-            border: 1px solid rgba(100, 100, 255, 0.3);
-            backdrop-filter: blur(10px);
+            min-width: 280px;
+            background: transparent;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: none;
+            border: 1px solid rgba(100, 100, 255, 0.2);
+            backdrop-filter: none;
         }
 
         .vu-meters-section h2 {
             text-align: center;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             color: #00ffaa;
-            font-size: 1.5rem;
-            letter-spacing: 2px;
+            font-size: 1.3rem;
+            letter-spacing: 1px;
             text-transform: uppercase;
         }
 
         .vu-meters-container {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 35px;
+            gap: 25px;
         }
 
         .vu-meter-item {
             display: flex;
             flex-direction: column;
             align-items: center;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
         }
 
         .vu-meter-label {
-            margin-top: 20px;
+            margin-top: 15px;
             font-weight: 600;
             color: #00ffaa;
             text-transform: uppercase;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             letter-spacing: 1px;
-            text-shadow: 0 0 10px rgba(0, 255, 170, 0.5);
+            text-shadow: 0 0 8px rgba(0, 255, 170, 0.5);
         }
 
         .vu-container {
             position: relative;
-            width: 160px;
-            height: 160px;
+            width: 140px;
+            height: 140px;
             margin: 0 auto;
         }
 
@@ -629,11 +617,11 @@
             width: 100%;
             height: 100%;
             border-radius: 50%;
-            background: radial-gradient(circle at 30% 30%, #1a1a2a, #0a0a15);
+            background: radial-gradient(circle at 30% 30%, rgba(26, 26, 42, 0.6), rgba(10, 10, 21, 0.6));
             box-shadow:
-                inset 0 0 30px rgba(0, 0, 0, 0.8),
-                0 0 20px rgba(0, 50, 100, 0.5);
-            border: 2px solid #222240;
+                inset 0 0 25px rgba(0, 0, 0, 0.7),
+                0 0 15px rgba(0, 50, 100, 0.3);
+            border: 2px solid rgba(34, 34, 64, 0.5);
         }
 
         .vu-scale {
@@ -653,10 +641,10 @@
         .vu-number {
             position: absolute;
             color: #a0a0ff;
-            font-size: 12px;
+            font-size: 10px;
             font-weight: 600;
             transform-origin: center;
-            text-shadow: 0 0 5px rgba(100, 100, 255, 0.7);
+            text-shadow: 0 0 4px rgba(100, 100, 255, 0.7);
         }
 
         .vu-ticks {
@@ -668,7 +656,7 @@
         .vu-tick {
             position: absolute;
             width: 2px;
-            background: #333355;
+            background: rgba(51, 51, 85, 0.7);
             transform-origin: bottom center;
             left: 50%;
             margin-left: -1px;
@@ -676,98 +664,98 @@
         }
 
         .vu-tick.major {
-            height: 12px;
+            height: 10px;
             background: linear-gradient(to top, #ff0055, #ff4400);
-            box-shadow: 0 0 5px rgba(255, 0, 85, 0.7);
+            box-shadow: 0 0 4px rgba(255, 0, 85, 0.7);
         }
 
         .vu-tick.minor {
-            height: 6px;
-            background: #444466;
+            height: 5px;
+            background: rgba(68, 68, 102, 0.7);
         }
 
         .vu-needle {
             position: absolute;
-            width: 3px;
+            width: 2px;
             height: 45%;
             background: linear-gradient(to top, #00ffaa, #0088ff);
             bottom: 50%;
             left: 50%;
             transform-origin: bottom center;
             transform: translateX(-50%) rotate(-90deg);
-            border-radius: 2px;
-            box-shadow: 0 0 10px rgba(0, 255, 200, 0.7);
-            transition: transform 0.1s ease;
+            border-radius: 1px;
+            box-shadow: 0 0 8px rgba(0, 255, 200, 0.7);
+            transition: transform 0.08s ease;
             z-index: 10;
         }
 
         .vu-center {
             position: absolute;
-            width: 20px;
-            height: 20px;
+            width: 16px;
+            height: 16px;
             background: radial-gradient(circle, #00aaff, #0055ff);
             border-radius: 50%;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            box-shadow: 0 0 15px rgba(0, 150, 255, 0.8);
+            box-shadow: 0 0 12px rgba(0, 150, 255, 0.8);
             z-index: 11;
-            border: 2px solid #0a0a1a;
+            border: 2px solid rgba(10, 10, 26, 0.5);
         }
 
         .vu-center::after {
             content: '';
             position: absolute;
-            width: 8px;
-            height: 8px;
-            background: #0a0a1a;
+            width: 6px;
+            height: 6px;
+            background: rgba(10, 10, 26, 0.8);
             border-radius: 50%;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
         }
 
-        /* Footer mejorado */
+        /* Footer con fondo más transparente */
         .footer {
             width: 100%;
-            background: rgba(5, 5, 15, 0.95);
-            padding: 40px 0 30px;
-            margin-top: 50px;
-            border-top: 1px solid rgba(100, 100, 255, 0.3);
+            background: rgba(5, 5, 15, 0.6);
+            padding: 30px 0 20px;
+            margin-top: 40px;
+            border-top: 1px solid rgba(100, 100, 255, 0.2);
         }
 
         .footer-content {
-            max-width: 1200px;
+            max-width: 1100px;
             margin: 0 auto;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 25px;
+            gap: 20px;
         }
 
         .social-links {
             display: flex;
-            gap: 25px;
+            gap: 20px;
         }
 
         .social-link {
-            width: 55px;
-            height: 55px;
+            width: 45px;
+            height: 45px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: rgba(20, 20, 40, 0.9);
-            transition: all 0.3s ease;
-            border: 2px solid rgba(100, 100, 255, 0.4);
+            background: rgba(20, 20, 40, 0.6);
+            transition: all 0.2s ease;
+            border: 2px solid rgba(100, 100, 255, 0.3);
             text-decoration: none;
-            font-size: 1.6rem;
+            font-size: 1.4rem;
             color: #fff;
         }
 
         .social-link:hover {
-            transform: translateY(-5px) scale(1.1);
-            box-shadow: 0 5px 20px rgba(0, 200, 255, 0.7);
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 3px 15px rgba(0, 200, 255, 0.7);
             border-color: #00ffaa;
         }
 
@@ -785,9 +773,9 @@
 
         .copyright {
             color: #a0a0ff;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             text-align: center;
-            line-height: 1.5;
+            line-height: 1.4;
         }
 
         /* Efectos de luces */
@@ -804,10 +792,10 @@
         .light-beam {
             position: absolute;
             width: 100%;
-            height: 2px;
+            height: 1px;
             background: linear-gradient(90deg, transparent, #ff0055, #ffaa00, #00ffaa, #0088ff, transparent);
-            opacity: 0.2;
-            animation: beamMove 8s linear infinite;
+            opacity: 0.15;
+            animation: beamMove 6s linear infinite;
         }
 
         @keyframes beamMove {
@@ -832,84 +820,84 @@
 
             .vu-meters-container {
                 grid-template-columns: 1fr;
-                gap: 25px;
-            }
-
-            .header-title {
-                font-size: 2.2rem;
-            }
-
-            .carousel-section {
-                height: 250px;
-            }
-
-            .carousel-title {
-                font-size: 1.8rem;
-            }
-
-            .loading-bar-container {
-                width: 300px;
-            }
-
-            .social-links {
                 gap: 20px;
             }
 
-            .social-link {
-                width: 50px;
-                height: 50px;
-                font-size: 1.4rem;
-            }
-
-            .player-title {
+            .header-title {
                 font-size: 2rem;
             }
 
+            .carousel-section {
+                height: 200px;
+            }
+
+            .carousel-title {
+                font-size: 1.5rem;
+            }
+
+            .loading-bar-container {
+                width: 250px;
+            }
+
+            .social-links {
+                gap: 15px;
+            }
+
+            .social-link {
+                width: 40px;
+                height: 40px;
+                font-size: 1.2rem;
+            }
+
+            .player-title {
+                font-size: 1.7rem;
+            }
+
             .frequency {
-                font-size: 2.2rem;
+                font-size: 2rem;
             }
 
             .on-air-indicator {
-                top: 15px;
+                top: 10px;
                 right: 15px;
             }
 
             .on-air-text {
-                font-size: 1.1rem;
-                padding: 6px 12px;
+                font-size: 1rem;
+                padding: 5px 10px;
             }
 
             .player-content {
-                margin-top: 80px;
+                margin-top: 70px;
             }
         }
     </style>
 </head>
 
 <body>
-    <!-- Pantalla de carga mejorada -->
+    <!-- Pantalla de carga optimizada -->
     <div id="loading-screen">
         <div class="loading-particles" id="particles-container"></div>
         <div class="loading-content">
             <div class="loading-logo">
-                <img src="logoradio.jpeg" alt="Logo Radio Dinámica" class="logo-img" id="loading-logo">
+                <img src="logoradio.jpeg" alt="Logo Radio Dinamica" class="logo-img" id="loading-logo">
             </div>
-            <h1 class="loading-title">RADIO DINÁMICA</h1>
-            <p class="loading-subtitle">Sintoniza la mejor experiencia musical</p>
+            <h1 class="loading-title">RADIO DINAMICA</h1>
+            <p class="loading-subtitle">LA NUEVA RADIO DE RUBIO</p>
             <div class="loading-bar-container">
                 <div class="loading-bar" id="loading-progress"></div>
             </div>
         </div>
     </div>
 
-    <!-- Header con logo y nombre - TRANSPARENTE -->
+    <!-- Header con logo y nombre - COMPLETAMENTE TRANSPARENTE -->
     <header class="header-section">
         <div class="header-content">
             <div class="header-logo">
-                <img src="logoradio.jpeg" alt="Logo Radio Dinámica" class="header-logo-img" id="header-logo">
+                <img src="logoradio.jpeg" alt="Logo Radio Dinamica" class="header-logo-img" id="header-logo">
             </div>
-            <h1 class="header-title">DINÁMICA 105 FM</h1>
-            <p class="header-subtitle">La mejor radio • Música las 24 horas</p>
+            <h1 class="header-title">DINAMICA 105.5 FM</h1>
+            <p class="header-subtitle">programación• Las 24 horas</p>
         </div>
     </header>
 
@@ -925,14 +913,14 @@
                         <div class="on-air-text loading" id="on-air-text">ON AIR</div>
                     </div>
 
-                    <!-- Contenido del reproductor - MUCHO MÁS ABAJO -->
+                    <!-- Contenido del reproductor -->
                     <div class="player-content">
-                        <h3 class="player-title">RADIO DINÁMICA</h3>
+                        <h3 class="player-title">RADIO DINAMICA</h3>
                         <p class="player-subtitle">Transmisión en vivo desde nuestros estudios</p>
 
                         <div class="frequency-display">
-                            <div class="frequency">105.0 FM</div>
-
+                            <div class="frequency">105.5 FM</div>
+                            <div class="frequency-label">Frecuencia</div>
                         </div>
 
                         <div class="status-message" id="status-message">
@@ -1070,8 +1058,8 @@
                 </a>
             </div>
             <div class="copyright">
-                <p>&copy; 2025 Radio Dinámica 105 FM. Todos los derechos reservados.</p>
-                <p>Tu conexión con la mejor música</p>
+                <p>&copy; 2025 Radio Dinamica 105.5 FM. Todos los derechos reservados.</p>
+                <p>LA NUEVA RADIO DE RUBIO</p>
             </div>
         </div>
     </footer>
@@ -1079,16 +1067,16 @@
     <!-- Efectos de luces -->
     <div class="light-effect">
         <div class="light-beam" style="animation-delay: 0s;"></div>
-        <div class="light-beam" style="animation-delay: 2s;"></div>
-        <div class="light-beam" style="animation-delay: 4s;"></div>
-        <div class="light-beam" style="animation-delay: 6s;"></div>
+        <div class="light-beam" style="animation-delay: 1.5s;"></div>
+        <div class="light-beam" style="animation-delay: 3s;"></div>
+        <div class="light-beam" style="animation-delay: 4.5s;"></div>
     </div>
 
     <script>
         // Crear partículas para la pantalla de carga
         function createParticles() {
             const container = document.getElementById('particles-container');
-            const particleCount = 30;
+            const particleCount = 20;
 
             for (let i = 0; i < particleCount; i++) {
                 const particle = document.createElement('div');
@@ -1100,16 +1088,16 @@
                 particle.style.left = `${posX}%`;
                 particle.style.top = `${posY}%`;
 
-                const size = Math.random() * 4 + 2;
+                const size = Math.random() * 3 + 1;
                 particle.style.width = `${size}px`;
                 particle.style.height = `${size}px`;
 
                 const colors = ['#ff0055', '#ffaa00', '#00ffaa', '#0088ff', '#5500ff'];
                 const color = colors[Math.floor(Math.random() * colors.length)];
                 particle.style.background = color;
-                particle.style.boxShadow = `0 0 10px ${color}`;
+                particle.style.boxShadow = `0 0 8px ${color}`;
 
-                particle.style.animationDelay = `${Math.random() * 6}s`;
+                particle.style.animationDelay = `${Math.random() * 4}s`;
 
                 container.appendChild(particle);
             }
@@ -1118,29 +1106,29 @@
         // Crear visualizador de audio
         function createVisualizer() {
             const visualizer = document.getElementById('visualizer');
-            const barCount = 25;
+            const barCount = 20;
 
             for (let i = 0; i < barCount; i++) {
                 const bar = document.createElement('div');
                 bar.className = 'bar';
-                bar.style.animationDelay = `${i * 0.05}s`;
+                bar.style.animationDelay = `${i * 0.04}s`;
                 visualizer.appendChild(bar);
             }
         }
 
-        // Control del indicador ON AIR
+        // Control del indicador ON AIR - CORREGIDO
         function initOnAirIndicator() {
             const onAirDot = document.getElementById('on-air-dot');
             const onAirText = document.getElementById('on-air-text');
             const statusMessage = document.getElementById('status-message');
 
-            // Inicia en verde (cargando)
+            // Inicia en ROJO (cargando)
             onAirDot.className = 'on-air-dot loading';
             onAirText.className = 'on-air-text loading';
             onAirText.textContent = 'ON AIR';
             statusMessage.textContent = 'Iniciando transmisión...';
 
-            // Simular carga y cambio a rojo (en vivo)
+            // Simular carga y cambio a VERDE (en vivo) después de 10 segundos
             setTimeout(() => {
                 onAirDot.className = 'on-air-dot live';
                 onAirText.className = 'on-air-text live';
@@ -1148,7 +1136,7 @@
                 statusMessage.textContent = '¡Transmisión en vivo! Disfruta de la mejor música';
 
                 console.log('Stream cargado - Cambiando a modo EN VIVO');
-            }, 4000);
+            }, 10000); // 10 segundos
         }
 
         // Carrusel automático
@@ -1202,7 +1190,7 @@
                         number.textContent = i;
 
                         const angle = i * 18 - 90;
-                        const radius = 65;
+                        const radius = 60;
                         const x = 50 + radius * Math.cos(angle * Math.PI / 180);
                         const y = 50 + radius * Math.sin(angle * Math.PI / 180);
 
@@ -1271,7 +1259,7 @@
             updateVUMeters();
         }
 
-        // Simulación de pantalla de carga
+        // Simulación de pantalla de carga OPTIMIZADA
         document.addEventListener('DOMContentLoaded', function () {
             const loadingScreen = document.getElementById('loading-screen');
             const mainContent = document.getElementById('main-content');
@@ -1282,7 +1270,7 @@
 
             let progress = 0;
             const interval = setInterval(() => {
-                progress += 2;
+                progress += 3; // Incremento más rápido
                 loadingProgress.style.width = `${progress}%`;
 
                 if (progress >= 100) {
@@ -1293,10 +1281,10 @@
                             loadingScreen.style.display = 'none';
                             mainContent.style.opacity = '1';
                             initOnAirIndicator(); // Iniciar el indicador ON AIR cuando carga la página
-                        }, 1000);
-                    }, 500);
+                        }, 300); // Tiempo más corto
+                    }, 200); // Tiempo más corto
                 }
-            }, 50);
+            }, 30); // Intervalo más corto
 
             initCarousel();
             initVUMeters();
