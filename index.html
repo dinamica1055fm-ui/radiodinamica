@@ -946,7 +946,11 @@
 
                     <!-- Iframe oculto -->
                     <div class="iframe-container">
-                        <iframe src="https://radios.yanapak.org/dinamica" allow="autoplay" id="radio-iframe"></iframe>
+                        <audio id="radio" controls autoplay>
+                            <source src="http://78.129.241.110:6240/stream" type="audio/mpeg">
+                            Tu navegador no soporta audio en streaming.
+                        </audio>
+
                     </div>
                 </div>
             </div>
@@ -1455,28 +1459,63 @@
 
         // Cargar el reproductor inmediatamente - MÁS RÁPIDO
         function preloadRadio() {
-            const iframe = document.getElementById('radio-iframe');
-            console.log('Iniciando precarga INSTANTÁNEA del reproductor de radio...');
+            const audio = document.getElementById('radio'); // id correcto
+            if (!audio) return console.warn("No se encontró el audio de radio");
 
-            // Crear un elemento link para precargar el recurso
-            const preloadLink = document.createElement('link');
-            preloadLink.rel = 'preload';
-            preloadLink.as = 'document';
-            preloadLink.href = 'https://radios.yanapak.org/dinamica';
-            document.head.appendChild(preloadLink);
+            audio.load();
+            audio.play().catch(err => {
+                console.log("Autoplay bloqueado, espera interacción del usuario:", err);
+            });
 
-            // Forzar la carga del iframe inmediatamente
-            iframe.src = 'https://radios.yanapak.org/dinamica';
+        }
 
-            iframe.onload = function () {
-                console.log('Reproductor de radio cargado INSTANTÁNEAMENTE');
-            };
+        // Pantalla de carga simulada
+        document.addEventListener('DOMContentLoaded', function () {
+            const loadingScreen = document.getElementById('loading-screen');
+            const mainContent = document.getElementById('main-content');
+            const loadingProgress = document.getElementById('loading-progress');
 
-            // En caso de error
-            iframe.onerror = function () {
-                console.log('Error al cargar el reproductor de radio');
+            preloadRadio();
+            createParticles();
+            createVisualizer();
+
+            const startTime = Date.now();
+            const totalDuration = 6000; // 6 segundos exactos
+
+            function updateProgress() {
+                const elapsed = Date.now() - startTime;
+                const progress = Math.min((elapsed / totalDuration) * 100, 100);
+
+                if (loadingProgress) loadingProgress.style.width = `${progress}%`;
+
+                if (progress < 100) {
+                    requestAnimationFrame(updateProgress);
+                } else {
+                    if (loadingScreen) {
+                        loadingScreen.style.opacity = '0';
+                        setTimeout(() => {
+                            loadingScreen.style.display = 'none';
+                            if (mainContent) mainContent.style.opacity = '1';
+                            initOnAirIndicator(); // ON AIR
+                        }, 300);
+                    }
+                }
+            }
+
+            updateProgress();
+            initCarousel();
+            initVUMeters();
+        });
+
+
+        // En caso de error
+        const audio = document.getElementById('radio'); // coincide con tu HTML
+        if (audio) {
+            audio.onerror = function () {
+                console.log('Error al cargar el stream de radio');
             };
         }
+
 
         // Simulación de pantalla de carga de 6 segundos EXACTOS
         document.addEventListener('DOMContentLoaded', function () {
