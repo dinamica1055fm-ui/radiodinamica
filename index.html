@@ -1200,6 +1200,46 @@
         <div class="light-beam" style="animation-delay: 4.5s;"></div>
     </div>
 
+
+    <!-- BANNER DE INSTALACIÓN - ESTILO ELEGANTE -->
+    <div id="pwaInstallBanner" style="
+    display:none;
+    position: fixed;
+    top: -200px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 400px;
+    background: linear-gradient(135deg, #0d47a1, #1976d2);
+    color: white;
+    padding: 20px;
+    box-shadow: 0px 4px 20px rgba(0,0,0,0.3);
+    border-radius: 12px;
+    text-align: center;
+    transition: top 0.6s ease;
+    z-index: 999999;
+    font-family: 'Segoe UI', sans-serif;
+">
+        <h3 style="margin:0 0 8px 0; font-size: 18px; font-weight: 600;">
+            Instalar Radio Dinámica
+        </h3>
+        <p style="margin: 0 0 12px 0; font-size: 14px; opacity: 0.9;">
+            Disfruta acceso rápido y directo a la radio desde tu dispositivo.
+        </p>
+        <button id="btnInstalarPWA" style="
+        background: white;
+        color: #1976d2;
+        border: none;
+        padding: 8px 18px;
+        border-radius: 20px;
+        font-size: 14px;
+        cursor: pointer;
+        font-weight: 600;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    ">Instalar ahora</button>
+    </div>
+
+
     <script>
 
         if ("serviceWorker" in navigator) {
@@ -1477,6 +1517,38 @@
 
             initCarousel();
             initVUMeters();
+        });
+
+        let deferredPrompt;
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+
+            const banner = document.getElementById("pwaInstallBanner");
+            const installBtn = document.getElementById("btnInstalarPWA");
+
+            // Mostrar banner con animación
+            banner.style.display = "block";
+            setTimeout(() => {
+                banner.style.top = "20px";
+            }, 100);
+
+            // Cerrar automáticamente a los 15 segundos
+            setTimeout(() => {
+                banner.style.top = "-200px";
+            }, 15000);
+
+            // Clic en instalar
+            installBtn.addEventListener("click", async () => {
+                banner.style.top = "-200px";
+                deferredPrompt.prompt(); // prompt oficial
+
+                const choice = await deferredPrompt.userChoice;
+                console.log("Instalación:", choice.outcome);
+
+                deferredPrompt = null;
+            });
         });
     </script>
 </body>
