@@ -934,8 +934,66 @@
                             <div class="frequency-label">Frecuencia</div>
                         </div>
 
+                        <!-- CONTROLES DE REPRODUCCIÓN MEJORADOS -->
+                        <div class="playback-controls"
+                            style="margin-top: 25px; display: flex; justify-content: center; gap: 15px;">
+                            <button id="playButton" style="
+                                background: linear-gradient(45deg, #00ffaa, #0088ff);
+                                border: none;
+                                border-radius: 50%;
+                                width: 60px;
+                                height: 60px;
+                                cursor: pointer;
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                                box-shadow: 0 5px 15px rgba(0, 255, 170, 0.4);
+                                transition: all 0.3s ease;
+                            ">
+                                <i class="fas fa-play" style="font-size: 1.5rem; color: white;"></i>
+                            </button>
+
+                            <button id="stopButton" style="
+                                background: linear-gradient(45deg, #ff5555, #ff0000);
+                                border: none;
+                                border-radius: 50%;
+                                width: 60px;
+                                height: 60px;
+                                cursor: pointer;
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                                box-shadow: 0 5px 15px rgba(255, 0, 0, 0.4);
+                                transition: all 0.3s ease;
+                            ">
+                                <i class="fas fa-stop" style="font-size: 1.5rem; color: white;"></i>
+                            </button>
+
+                            <button id="muteButton" style="
+                                background: linear-gradient(45deg, #ffaa00, #ff5500);
+                                border: none;
+                                border-radius: 50%;
+                                width: 60px;
+                                height: 60px;
+                                cursor: pointer;
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                                box-shadow: 0 5px 15px rgba(255, 170, 0, 0.4);
+                                transition: all 0.3s ease;
+                            ">
+                                <i class="fas fa-volume-up" style="font-size: 1.5rem; color: white;"></i>
+                            </button>
+                        </div>
+
                         <div class="status-message" id="status-message">
-                            Iniciando transmisión...
+                            Listo para conectar con el proxy...
+                        </div>
+
+                        <!-- Indicador de conexión -->
+                        <div id="connection-status" style="margin-top: 15px; font-size: 0.9rem; color: #a0a0ff;">
+                            <i class="fas fa-wifi" style="margin-right: 8px;"></i>
+                            <span id="connection-text">Conectando al proxy...</span>
                         </div>
                     </div>
 
@@ -944,13 +1002,11 @@
                         <!-- Las barras se generan dinámicamente -->
                     </div>
 
-                    <!-- Iframe oculto -->
-                    <div class="iframe-container">
-                        <audio id="radio" controls autoplay>
-                            <source src="https://78.129.241.110:6240/stream" type="audio/mpeg">
-                        </audio>
-
-                    </div>
+                    <!-- Audio conectado al proxy -->
+                    <audio id="radioPlayer" style="display: none;">
+                        <source src="https://proxy-1-14c1.onrender.com/stream" type="audio/mpeg">
+                        Tu navegador no soporta audio en streaming.
+                    </audio>
                 </div>
             </div>
 
@@ -1244,10 +1300,160 @@
 
 
     <script>
+        // URL de tu proxy
+        const PROXY_URL = "https://proxy-1-14c1.onrender.com/stream";
 
-        if ("serviceWorker" in navigator) {
-            navigator.serviceWorker.register("service-worker.js");
+        // Referencias a elementos
+        const radioPlayer = document.getElementById('radioPlayer');
+        const playButton = document.getElementById('playButton');
+        const stopButton = document.getElementById('stopButton');
+        const muteButton = document.getElementById('muteButton');
+        const statusMessage = document.getElementById('status-message');
+        const connectionText = document.getElementById('connection-text');
+        const onAirDot = document.getElementById('on-air-dot');
+        const onAirText = document.getElementById('on-air-text');
+        const connectionStatus = document.getElementById('connection-status');
+
+        // Estado inicial
+        let isPlaying = false;
+        let isMuted = false;
+        let connectionAttempts = 0;
+        const maxConnectionAttempts = 5;
+
+        // Función para probar conexión al proxy
+        async function testProxyConnection() {
+            try {
+                connectionText.textContent = "Probando conexión con el proxy...";
+
+                // Intentar hacer una solicitud HEAD al proxy
+                const response = await fetch(PROXY_URL, {
+                    method: 'HEAD',
+                    mode: 'cors',
+                    cache: 'no-cache'
+                });
+
+                if (response.ok || response.status === 200) {
+                    connectionText.textContent = "✓ Proxy conectado correctamente";
+                    connectionStatus.style.color = "#00ffaa";
+                    return true;
+                } else {
+                    connectionText.textContent = "⚠ Proxy responde pero con error";
+                    connectionStatus.style.color = "#ffaa00";
+                    return false;
+                }
+            } catch (error) {
+                connectionAttempts++;
+                if (connectionAttempts < maxConnectionAttempts) {
+                    connectionText.textContent = `Intentando conexión (${connectionAttempts}/${maxConnectionAttempts})...`;
+                    setTimeout(testProxyConnection, 2000);
+                    return false;
+                } else {
+                    connectionText.textContent = "✗ No se pudo conectar al proxy";
+                    connectionStatus.style.color = "#ff5555";
+                    statusMessage.textContent = "Error de conexión. Verifica que el proxy esté funcionando.";
+                    return false;
+                }
+            }
         }
+
+        // Iniciar reproducción
+        function startPlayback() {
+            if (!radioPlayer.src) {
+                radioPlayer.src = PROXY_URL;
+            }
+
+            radioPlayer.play()
+                .then(() => {
+                    isPlaying = true;
+                    playButton.innerHTML = '<i class="fas fa-pause" style="font-size: 1.5rem; color: white;"></i>';
+                    statusMessage.textContent = "¡Transmisión en vivo desde el proxy!";
+                    statusMessage.style.color = "#00ffaa";
+
+                    // Cambiar indicador ON AIR a verde
+                    onAirDot.className = 'on-air-dot live';
+                    onAirText.className = 'on-air-text live';
+                    onAirText.textContent = 'EN VIVO';
+
+                    // Actualizar indicador de conexión
+                    connectionText.textContent = "✓ Transmitiendo desde proxy";
+                    connectionStatus.style.color = "#00ffaa";
+
+                    console.log('Reproducción iniciada desde proxy');
+                })
+                .catch(error => {
+                    console.error('Error al reproducir:', error);
+                    statusMessage.textContent = "Error al iniciar reproducción. Haz clic nuevamente.";
+                    statusMessage.style.color = "#ff5555";
+                });
+        }
+
+        // Detener reproducción
+        function stopPlayback() {
+            radioPlayer.pause();
+            radioPlayer.currentTime = 0;
+            isPlaying = false;
+            playButton.innerHTML = '<i class="fas fa-play" style="font-size: 1.5rem; color: white;"></i>';
+            statusMessage.textContent = "Reproducción detenida";
+            statusMessage.style.color = "#a0a0ff";
+
+            // Cambiar indicador ON AIR a rojo
+            onAirDot.className = 'on-air-dot loading';
+            onAirText.className = 'on-air-text loading';
+            onAirText.textContent = 'OFF AIR';
+
+            connectionText.textContent = "Reproducción detenida";
+            connectionStatus.style.color = "#a0a0ff";
+        }
+
+        // Alternar silencio
+        function toggleMute() {
+            isMuted = !isMuted;
+            radioPlayer.muted = isMuted;
+
+            if (isMuted) {
+                muteButton.innerHTML = '<i class="fas fa-volume-mute" style="font-size: 1.5rem; color: white;"></i>';
+                muteButton.style.background = 'linear-gradient(45deg, #888888, #555555)';
+                statusMessage.textContent = "Sonido silenciado";
+            } else {
+                muteButton.innerHTML = '<i class="fas fa-volume-up" style="font-size: 1.5rem; color: white;"></i>';
+                muteButton.style.background = 'linear-gradient(45deg, #ffaa00, #ff5500)';
+                statusMessage.textContent = "¡Transmisión en vivo desde el proxy!";
+            }
+        }
+
+        // Event listeners para botones
+        playButton.addEventListener('click', () => {
+            if (isPlaying) {
+                stopPlayback();
+            } else {
+                startPlayback();
+            }
+        });
+
+        stopButton.addEventListener('click', stopPlayback);
+        muteButton.addEventListener('click', toggleMute);
+
+        // Eventos del reproductor
+        radioPlayer.addEventListener('playing', () => {
+            console.log('Audio en reproducción');
+        });
+
+        radioPlayer.addEventListener('error', (e) => {
+            console.error('Error en el reproductor:', e);
+            statusMessage.textContent = "Error de conexión con el proxy";
+            statusMessage.style.color = "#ff5555";
+            connectionText.textContent = "✗ Error de conexión";
+            connectionStatus.style.color = "#ff5555";
+        });
+
+        radioPlayer.addEventListener('waiting', () => {
+            statusMessage.textContent = "Buffering...";
+            statusMessage.style.color = "#ffaa00";
+        });
+
+        radioPlayer.addEventListener('canplay', () => {
+            console.log('Audio listo para reproducir');
+        });
 
         // Crear partículas para la pantalla de carga
         function createParticles() {
@@ -1290,29 +1496,6 @@
                 bar.style.animationDelay = `${i * 0.04}s`;
                 visualizer.appendChild(bar);
             }
-        }
-
-        // Control del indicador ON AIR - CORREGIDO
-        function initOnAirIndicator() {
-            const onAirDot = document.getElementById('on-air-dot');
-            const onAirText = document.getElementById('on-air-text');
-            const statusMessage = document.getElementById('status-message');
-
-            // Inicia en ROJO (cargando)
-            onAirDot.className = 'on-air-dot loading';
-            onAirText.className = 'on-air-text loading';
-            onAirText.textContent = 'ON AIR';
-            statusMessage.textContent = 'Iniciando transmisión...';
-
-            // Simular carga y cambio a VERDE (en vivo) después de 10 segundos
-            setTimeout(() => {
-                onAirDot.className = 'on-air-dot live';
-                onAirText.className = 'on-air-text live';
-                onAirText.textContent = 'ON AIR';
-                statusMessage.textContent = '¡Transmisión en vivo! Disfruta de la mejor música';
-
-                console.log('Stream cargado - Cambiando a modo EN VIVO');
-            }, 10000); // 10 segundos
         }
 
         // Carrusel automático
@@ -1358,7 +1541,6 @@
                 showSlide(next);
             }, 3000);
         }
-
 
         // VUMETROS CORREGIDOS - NO BAJAN DE 2
         function initVUMeters() {
@@ -1424,7 +1606,6 @@
                 agudos: 2
             };
 
-
             function updateVUMeters() {
                 // Cambio aleatorio de valores (SOLO ENTRE 2 Y 8)
                 if (Math.random() < 0.08) {
@@ -1456,25 +1637,12 @@
             updateVUMeters();
         }
 
-        // Cargar el reproductor inmediatamente - MÁS RÁPIDO
-        function preloadRadio() {
-            const audio = document.getElementById('radio'); // id correcto
-            if (!audio) return console.warn("No se encontró el audio de radio");
-
-            audio.load();
-            audio.play().catch(err => {
-                console.log("Autoplay bloqueado, espera interacción del usuario:", err);
-            });
-
-        }
-
         // Pantalla de carga simulada
         document.addEventListener('DOMContentLoaded', function () {
             const loadingScreen = document.getElementById('loading-screen');
             const mainContent = document.getElementById('main-content');
             const loadingProgress = document.getElementById('loading-progress');
 
-            preloadRadio();
             createParticles();
             createVisualizer();
 
@@ -1495,7 +1663,9 @@
                         setTimeout(() => {
                             loadingScreen.style.display = 'none';
                             if (mainContent) mainContent.style.opacity = '1';
-                            initOnAirIndicator(); // ON AIR
+
+                            // Probar conexión al proxy después de cargar
+                            testProxyConnection();
                         }, 300);
                     }
                 }
@@ -1506,57 +1676,7 @@
             initVUMeters();
         });
 
-
-        // En caso de error
-        const audio = document.getElementById('radio'); // coincide con tu HTML
-        if (audio) {
-            audio.onerror = function () {
-                console.log('Error al cargar el stream de radio');
-            };
-        }
-
-
-        // Simulación de pantalla de carga de 6 segundos EXACTOS
-        document.addEventListener('DOMContentLoaded', function () {
-            const loadingScreen = document.getElementById('loading-screen');
-            const mainContent = document.getElementById('main-content');
-            const loadingProgress = document.getElementById('loading-progress');
-
-            // Iniciar precarga del reproductor inmediatamente - MÁS RÁPIDO
-            preloadRadio();
-
-            createParticles();
-            createVisualizer();
-
-            const startTime = Date.now();
-            const totalDuration = 6000; // 6 segundos exactos
-
-            function updateProgress() {
-                const elapsed = Date.now() - startTime;
-                const progress = Math.min((elapsed / totalDuration) * 100, 100);
-
-                loadingProgress.style.width = `${progress}%`;
-
-                if (progress < 100) {
-                    requestAnimationFrame(updateProgress);
-                } else {
-                    // Ocultar pantalla de carga después de 6 segundos exactos
-                    loadingScreen.style.opacity = '0';
-                    setTimeout(() => {
-                        loadingScreen.style.display = 'none';
-                        mainContent.style.opacity = '1';
-                        initOnAirIndicator(); // Iniciar el indicador ON AIR cuando carga la página
-                    }, 300);
-                }
-            }
-
-            // Iniciar la animación de progreso
-            updateProgress();
-
-            initCarousel();
-            initVUMeters();
-        });
-
+        // PWA Installation
         let deferredPrompt;
 
         window.addEventListener('beforeinstallprompt', (e) => {
@@ -1588,6 +1708,11 @@
                 deferredPrompt = null;
             });
         });
+
+        // Service Worker
+        if ("serviceWorker" in navigator) {
+            navigator.serviceWorker.register("service-worker.js");
+        }
     </script>
 </body>
 
