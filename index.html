@@ -886,91 +886,17 @@
         }
 
         /* Responsive */
-        @media (max-width: 768px) {
-            .radio-content {
-                flex-direction: column;
-            }
-
-            .vu-meters-container {
-                grid-template-columns: 1fr;
-                gap: 20px;
-            }
-
-            .header-title {
-                font-size: 2rem;
-            }
-
-            .carousel-section {
-                height: 200px;
-            }
-
-            .carousel-title {
-                font-size: 1.5rem;
-            }
-
-            .loading-bar-container {
-                width: 90%;
-            }
-
-            .social-links {
-                gap: 15px;
-            }
-
-            .social-link {
-                width: 40px;
-                height: 40px;
-                font-size: 1.2rem;
-            }
-
-            .player-title {
-                font-size: 1.7rem;
-            }
-
-            .frequency {
-                font-size: 2rem;
-            }
-
-            .on-air-indicator {
-                top: 10px;
-                right: 15px;
-            }
-
-            .on-air-text {
-                font-size: 1rem;
-                padding: 5px 10px;
-            }
-
-            .player-content {
-                margin-top: 70px;
-            }
-
-            .main-play-button {
-                width: 55px;
-                /* Más pequeño en móvil */
-                height: 55px;
-                /* Más pequeño en móvil */
-                left: -40px;
-                /* Ajuste para móvil */
-            }
-
-            .main-play-button i {
-                font-size: 1.3rem;
-                /* Icono más pequeño en móvil */
-            }
-
-            .playback-controls {
-                margin-top: 5px;
-                /* MÁS ARRIBA EN MÓVIL: de 25px a 5px */
-            }
-
-            .main-play-button {
-                width: 50px;
-                height: 50px;
-                left: -150px;
-                top: 35px;
-                /* NUEVO: Ajuste para móvil */
-            }
-        }
+        /* OPCIÓN ADICIONAL: Botón basado en el ancho de pantalla */
+@media (max-width: 768px) {
+    .main-play-button {
+        width: min(60px, 12vw); /* 60px máximo o 12% del ancho */
+        height: min(60px, 12vw);
+    }
+    
+    .main-play-button i {
+        font-size: min(1.4rem, 2.5vw);
+    }
+}
     </style>
 </head>
 
