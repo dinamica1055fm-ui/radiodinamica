@@ -822,64 +822,88 @@
         }
 
         /* Responsive */
-        @media (max-width: 768px) {
-            .radio-content {
-                flex-direction: column;
-            }
+        /* Responsive */
+@media (max-width: 768px) {
+    .radio-content {
+        flex-direction: column;
+    }
 
-            .vu-meters-container {
-                grid-template-columns: 1fr;
-                gap: 20px;
-            }
+    .vu-meters-container {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
 
-            .header-title {
-                font-size: 2rem;
-            }
+    .header-title {
+        font-size: 2rem;
+    }
 
-            .carousel-section {
-                height: 200px;
-            }
+    .carousel-section {
+        height: 200px;
+    }
 
-            .carousel-title {
-                font-size: 1.5rem;
-            }
+    .carousel-title {
+        font-size: 1.5rem;
+    }
 
-            .loading-bar-container {
-                width: 90%;
-            }
+    .loading-bar-container {
+        width: 90%;
+    }
 
-            .social-links {
-                gap: 15px;
-            }
+    .social-links {
+        gap: 15px;
+    }
 
-            .social-link {
-                width: 40px;
-                height: 40px;
-                font-size: 1.2rem;
-            }
+    .social-link {
+        width: 40px;
+        height: 40px;
+        font-size: 1.2rem;
+    }
 
-            .player-title {
-                font-size: 1.7rem;
-            }
+    .player-title {
+        font-size: 1.7rem;
+    }
 
-            .frequency {
-                font-size: 2rem;
-            }
+    .frequency {
+        font-size: 2rem;
+    }
 
-            .on-air-indicator {
-                top: 10px;
-                right: 15px;
-            }
+    .on-air-indicator {
+        top: 10px;
+        right: 15px;
+    }
 
-            .on-air-text {
-                font-size: 1rem;
-                padding: 5px 10px;
-            }
+    .on-air-text {
+        font-size: 1rem;
+        padding: 5px 10px;
+    }
 
-            .player-content {
-                margin-top: 70px;
-            }
-        }
+    .player-content {
+        margin-top: 70px;
+    }
+
+    /* BOTÓN CENTRADO EN MÓVIL - REEMPLAZA LA SECCIÓN ANTERIOR */
+    .playback-controls {
+        margin-top: 20px;
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        position: relative;
+    }
+
+    .main-play-button {
+        width: 60px;
+        height: 60px;
+        position: relative;
+        left: 0 !important; /* Elimina el desplazamiento a la izquierda */
+        top: 0 !important; /* Elimina el desplazamiento vertical */
+        margin: 0 auto; /* Centra horizontalmente */
+        transform: none; /* Elimina cualquier transformación */
+    }
+
+    .main-play-button i {
+        font-size: 1.5rem;
+    }
+}
     </style>
 </head>
 
